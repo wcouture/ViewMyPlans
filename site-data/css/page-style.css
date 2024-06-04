@@ -1,0 +1,171 @@
+html {
+    width: 100%;
+    height: 100%;
+    font-family: "Freeman", "sans-serif";
+    background: #dbdbdb;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+/*
+th {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+td {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+*/
+
+.title-bar {
+    font-size: 40pt;
+    font-family: "Freeman", "sans-serif";
+    color: #424242;
+
+    text-align: center;
+    padding: 20px;
+
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-bottom: 2px solid #707070;
+}
+
+.plan-board {
+    width: 70%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    /*
+    border-radius: 10px;
+    border: 4px solid black;
+    background-color: white;
+    */
+
+    overflow-y: auto;
+
+    max-height: 50%;
+
+    padding: 10px;
+}
+
+.header-board {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+.header-card {
+    text-align: left;
+    display: flex;
+    font-size: 15pt;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.plan-card {
+    padding: 30px;
+    font-size: 15pt;
+    text-align: left;
+    background-color: white;
+    box-shadow: 2px 2px 10px 1px rgba(0,0,0,0.6);
+    display: flex;
+    margin-bottom: 2%;
+}
+
+.category-bar {
+    display: flex;
+    align-content: center;
+}
+
+.tab-bar {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.tab {
+    background-color: #aaaaaa;
+    border-left: 2px solid #686868;
+    border-right: 2px solid #686868;
+    border-bottom: 2px solid #686868;
+    font-size: 15pt;
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    
+    text-transform: uppercase;
+}
+
+.tab:hover {
+    background-color: #e4e4e4;
+}
+
+.tab.active {
+    background-color: #292b7c;
+    color: white;
+    text-decoration: underline;
+}
+
+.order-button {
+    border: 2px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
+.order-button:hover {
+    background-color: rgb(56, 58, 145);
+    color: white;
+}
+
+.name-col {
+    width: 20%;
+}
+
+.contractor-col {
+    width: 20%;
+}
+
+.bid-col {
+    width: 15%;
+}
+
+.version-col {
+    width: 15%;
+}
+
+.preview-col {
+    width: 15%;
+}
+
+.access-col {
+    width: 15%;
+}
+
+#search-bar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    font-size: 15pt;
+}

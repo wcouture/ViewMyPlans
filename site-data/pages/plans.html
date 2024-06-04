@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ViewMyPlans</title>
+        <link href="/css/page-style.css" rel="stylesheet"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Freeman&family=Satisfy&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="title-bar">Current Projects</div>
+        <div class="category-bar">
+            <div class="tab-bar">
+            </div>
+        </div>
+
+        <div style="display: flex; align-content: center; padding: 10px;">
+            <input placeholder="search..." type="text" id="search-bar">
+        </div>
+
+        <div class="header-board">
+            <div class="header-card">
+                <table>
+                    <tr>
+                        <th class="name-col">Proj Name</th>
+                        <th class="contractor-col">Contractor(s)</th>
+                        <th class="bid-col">Bid Date</th>
+                        <th class="version-col">Version</th>
+                        <th class="preview-col">Preview</th>
+                        <th class="access-col">Access Level</th>
+                    </tr>
+                </table>
+                <a style="padding: 5px; color: rgba(0,0,0,0);" href="#">Order<br>Plans</a>
+            </div>
+        </div>
+        
+        <div class="plan-board">
+        
+            <div class="plan-card">
+                <table>
+                    <tr>
+                        <td class="name-col">Project 1</td>
+                        <td class="contractor-col">Contractor 1</td>
+                        <td class="bid-col">05/08/2024</td>
+                        <td class="version-col">100% Construction</td>
+                        <td class="preview-col"><a href="#">online set</a></td>
+                        <td class="access-col"><a href="#">Newforma</a></td>
+                    </tr>
+                </table>
+                <a class="order-button" href="#">Order<br>Plans</a>
+            </div>
+        
+        </div>
+    </body>
+    <script>
+        let tab_bar = document.getElementsByClassName("tab-bar")[0];
+        let tabs = []
+        var category = 0;
+        let categories = [];
+        let plans = [];
+
+        function populate_list() {
+            for (plan in plans) {
+                let card = document.createElement("div");
+            }
+        }
+
+        function retrieve_plans() {
+            let cat_name = categories[category];
+            // Fetch plans
+            populate_list();
+        }
+
+        function set_active_tab() {
+            for (let i = 0; i < tabs.length; i++) {
+                if (tabs[i].id == category) {
+                    tabs[i].className = "tab active";
+                }
+                else {
+                    tabs[i].className = "tab";
+                }
+            }
+        }
+        let config = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+				"mode": "same-origin",
+			},
+        };
+        fetch("/categories", config)
+        .then((response) => response.json())
+        .then((res) => {
+            for (cat_index in res.categories) {
+                categories.push(res.categories[cat_index]);
+
+                let tab = document.createElement("a");
+                tab.href = "#";
+                tab.className = "tab";
+                tab.id = cat_index;
+                tab.innerText = res.categories[cat_index];
+
+                tab.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    category = e.target.id;
+                    set_active_tab();
+                    //retrieve_plans();
+                });
+
+                tab_bar.appendChild(tab);
+
+                tabs.push(tab);
+            }
+            set_active_tab();
+            //retrieve_plans();
+        })
+    </script>
+</html>
