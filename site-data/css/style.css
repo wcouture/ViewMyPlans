@@ -25,6 +25,18 @@ a {
     top: 18%;
 }
 
+@media screen and (max-width: 768px) {
+    #plan-list-link {
+        font-size: 40pt;
+        text-align: center;
+        padding: 5%;
+
+        position: absolute;
+        left: 54%;
+        top: 18%;
+    }
+}
+
 #plan-list-link:hover {
     color: white;
 }
