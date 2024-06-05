@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json({limit: '200mb'}));
 app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
 
-const port = 3001;
+const port = 3005;
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -47,7 +47,7 @@ function load_project_data() {
 
 function save_project_data() {
     let data = JSON.stringify(project_data, null, 4);
-    fs.writeFileSync("data/data_table.json");
+    fs.writeFileSync("data/data_table.json", data);
 }
 
 app.get("/", (req, res) => {
