@@ -19,8 +19,9 @@ a {
     font-size: 50pt;
     text-align: center;
 
-    position: relative;
+    position: absolute;
     left: 58%;
+
 }
 
 #plan-list-link:hover {
