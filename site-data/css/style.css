@@ -5,7 +5,8 @@ html {
 h1 {
     font-family: "Satisfy", cursive;
     font-size: 75pt;
-    padding-left: 20%;
+    position: relative;
+    left: 20%;
 }
 
 a {
@@ -17,8 +18,10 @@ a {
 #plan-list-link {
     font-size: 50pt;
     text-align: center;
-    padding: 40pt;
-    transform: translate(80%, 65%);
+
+    position: relative;
+    left: 58%;
+    top: -10pt;
 }
 
 #plan-list-link:hover {
@@ -31,12 +34,14 @@ body {
     background: url("/images/monocle-transformed.png");
     background-size:cover;
     background-repeat: no-repeat;
-    display: flex;
     font-family: "Freeman", sans-serif;
 }
 
 .nav-buttons {
-    transform: translate(-250%, 125%);
+    max-width: 15%;
+    position: relative;
+    left: 20%;
+    top: -10%;
 }
 
 .button {
