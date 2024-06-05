@@ -96,7 +96,7 @@
             fetch(`/get-projects?category=${cat_name}`, config)
             .then((response) => response.json())
             .then((res) => {
-                let data = JSON.parse(res);
+                let data = res;
                 plans = data.plans;
                 populate_list();
             })
