@@ -80,14 +80,20 @@ app.get("/get-projects", (req, res) => {
 app.post("/upload-project", upload.single('file'), (req, res) => {
     let category = req.body.category;
 
-    let file_path = "data/previews/" + req.file.originalname;
-    fs.renameSync(req.file.path, file_path, (err) => {
-        if (err) {
-            console.error('Error moving the file:', err);
-            res.status(500).send('Error saving the file');
-            return;
-        }
-    })
+    var file_path = "#";
+    
+    if (req.file != undefined) {
+        file_path = "data/previews/" + req.file.originalname;
+
+        fs.renameSync(req.file.path, file_path, (err) => {
+            if (err) {
+                console.error('Error moving the file:', err);
+                res.status(500).send('Error saving the file');
+                return;
+            }
+        })
+
+    }
 
     let project = {
         "id": req.body.id,
@@ -96,7 +102,7 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
         "bid_date": req.body.bid_date,
         "version": req.body.version,
         "preview": file_path,
-        "link": req.body.link
+        "link": req.body.newforma
     };
 
     for (let i = 0; i < project_data[category].length; i++){
