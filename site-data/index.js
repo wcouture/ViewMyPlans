@@ -13,6 +13,43 @@ app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
 
 const port = 3001;
 
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+
+const SUCCESS = JSON.stringify({ "status": "project added" });
+const UPDATED = JSON.stringify({ "status": "project updated" });
+const DELETED = JSON.stringify({ "status": "project deleted" });
+const NOT_FOUND = JSON.stringify({ "status": "project not found" });
+
+var project_data = {};
+
+const categories = {
+    "categories": [
+        "Commercial",
+        "School",
+        "City & County",
+        "State of Florida",
+        "Church",
+        "Residentail",
+        "Airport",
+        "Medical",
+        "Library",
+        "Military"
+    ]
+}
+
+function load_project_data() {
+    let data = fs.readFileSync("data/data_table.json", "utf-8");
+    project_data = JSON.parse(data);
+}
+
+function save_project_data() {
+    let data = JSON.stringify(project_data, null, 4);
+    fs.writeFileSync("data/data_table.json");
+}
+
 app.get("/", (req, res) => {
     res.sendFile("/pages/index.html", { root: __dirname });
 });
@@ -30,7 +67,85 @@ app.get("/plans", (req, res) => {
 });
 
 app.get("/categories", (req, res) => {
-    res.send(JSON.stringify({ "categories": ["cat1", "cat2", "cat3"]}))
+    res.send(JSON.stringify(categories));
+});
+
+app.get("/get-projects", (req, res) => {
+    let category = req.query.category;
+    let data = project_data[category];
+    console.log(data);
+    res.send(JSON.stringify(data));
+});
+
+app.post("/upload-project", upload.single('file'), (req, res) => {
+    let category = req.body.category;
+
+    let file_path = "data/previews/" + req.file.originalname;
+    fs.renameSync(req.file.path, file_path, (err) => {
+        if (err) {
+            console.error('Error moving the file:', err);
+            res.status(500).send('Error saving the file');
+            return;
+        }
+    })
+
+    let project = {
+        "id": req.body.id,
+        "name": req.body.name,
+        "contractor": req.body.contractor,
+        "bid_date": req.body.bid_date,
+        "version": req.body.version,
+        "preview": file_path,
+        "link": req.body.link
+    };
+
+    for (let i = 0; i < project_data[category].length; i++){
+        if (project_data[category].plans[i].id == project.id) {
+            // Update project information
+            project_data[category].plans[i].name = project.name;
+            project_data[category].plans[i].contractor = project.contractor;
+            project_data[category].plans[i].bid_date = project.bid_date;
+            project_data[category].plans[i].version = project.version;
+            project_data[category].plans[i].preview = project.preview;
+            project_data[category].plans[i].link = project.link;
+            res.send(UPDATED);
+            return;
+        }
+    }
+
+    // New project
+    project_data[category].plans.push(project);
+    res.send(SUCCESS);
+});
+
+app.post("/delete-project", (req, res) => {
+    let project_id = req.body.id;
+    let category = req.body.category;
+
+    for (let i = 0; i < project_data[category].plans.length; i++) {
+        if (project_data[category].plans[i].id == project_id) {
+            // Remove one element at the specified index
+            project_data.splice(i, 1);
+            res.send(DELETED);
+
+            fs.rmSync(project_data[category].plans[id].preview);
+            return;
+        }
+    }
+
+    res.send(NOT_FOUND);
+});
+
+app.get("/online-set", (req, res) => {
+    let id = req.query.id;
+
+    for (let i = 0; i < project_data[category].plans.length; i++) {
+        if (project_data[category].plans[i].id == id) {
+            res.sendFile(project_data[category].plans[i].preview, { root: __dirname });
+            return;
+        }
+    }
+    res.send(NOT_FOUND);
 });
 
 app.get("/:dir/:file", (req, res) => {
@@ -39,4 +154,8 @@ app.get("/:dir/:file", (req, res) => {
 
 app.listen(port, () => {
     console.log(`Semblueinc listening on port ${port}`);
+    load_project_data();
 });
+
+// Save project data every hour
+setInterval(save_project_data, HOUR);

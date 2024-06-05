@@ -1,0 +1,12 @@
+{
+    "Commercial":       { "plans" : [] },
+    "School":           { "plans" : [] },
+    "City & County":    { "plans" : [] },
+    "State of Florida": { "plans" : [] },
+    "Church":           { "plans" : [] },
+    "Residential":      { "plans" : [] },
+    "Airport":          { "plans" : [] },
+    "Medical":          { "plans" : [] },
+    "Library":          { "plans" : [] },
+    "Military":         { "plans" : [] }
+}
