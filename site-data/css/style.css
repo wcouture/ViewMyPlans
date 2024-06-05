@@ -18,10 +18,11 @@ a {
 #plan-list-link {
     font-size: 50pt;
     text-align: center;
+    padding: 5%;
 
     position: absolute;
-    left: 59%;
-    top: 25%;
+    left: 54%;
+    top: 18%;
 }
 
 #plan-list-link:hover {
