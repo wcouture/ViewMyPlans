@@ -5,7 +5,7 @@ html {
 h1 {
     font-family: "Satisfy", cursive;
     font-size: 75pt;
-    position: relative;
+    position: absolute;
     left: 20%;
 }
 
@@ -21,7 +21,7 @@ a {
 
     position: absolute;
     left: 58%;
-
+    top: 25%;
 }
 
 #plan-list-link:hover {
@@ -39,9 +39,9 @@ body {
 
 .nav-buttons {
     max-width: 15%;
-    position: relative;
+    position: absolute;
     left: 20%;
-    top: -10%;
+    top: 40%;
 }
 
 .button {
