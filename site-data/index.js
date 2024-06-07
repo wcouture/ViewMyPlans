@@ -32,7 +32,7 @@ const categories = {
         "City & County",
         "State of Florida",
         "Church",
-        "Residentail",
+        "Residential",
         "Airport",
         "Medical",
         "Library",
@@ -73,7 +73,6 @@ app.get("/categories", (req, res) => {
 app.get("/get-projects", (req, res) => {
     let category = req.query.category;
     let data = project_data[category];
-    console.log(data);
     res.send(JSON.stringify(data));
 });
 
