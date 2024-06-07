@@ -61,19 +61,23 @@
         let plans = [];
 
         function populate_list() {
-	    for (let i = 0; i < plans.length; i++) {
+            let cards = document.getElementsByClassName("plan-card");
+            while (cards.length > 0)
+                cards[0].remove();
+
+	        for (let i = plans.length - 1; i >= 0; i--) {
             	let plan = plans[i];
-		var preview_link = `<a href='${plan.preview}'>preview</a>`;
-		if (plan.preview == "#") {
-		    preview_link = 'N/A';
-		}
+                var preview_link = `<a href='${plan.preview}'>preview</a>`;
+                if (plan.preview == "#") {
+                    preview_link = 'N/A';
+                }
 
-		var access_link = `<a href='${plan.link}'>Newforma</a>`;
-		if (plan.link == 'NA') {
-		    access_link = '<a href="https://servius.tech/contact">Contact Us</a>';
-		}
+                var access_link = `<a href='${plan.link}'>Newforma</a>`;
+                if (plan.link == 'NA') {
+                    access_link = '<a href="https://servius.tech/contact">Contact Us</a>';
+                }
 
-		let card = document.createElement("div");
+                let card = document.createElement("div");
                 card.className = "plan-card";
                 card.innerHTML = `
                     <table>
@@ -82,7 +86,7 @@
                             <td class="contractor-col">${plan.contractor}</td>
                             <td class="bid-col">${plan.bid_date}</td>
                             <td class="version-col">${plan.version}</td>
-	   		    <td class="preview-col">${preview_link}</td>
+	   		                <td class="preview-col">${preview_link}</td>
                             <td class="access-col">${access_link}</td>
                         </tr>
                     </table>
