@@ -77,8 +77,8 @@ app.get("/get-projects", (req, res) => {
 });
 
 app.post("/upload-project", upload.single('file'), (req, res) => {
-    let category = categories.categories[req.body.category];
-
+    let category = categories.categories[req.body.category - 1];
+    console.log("Category: " + category);
     var file_path = "#";
     
     if (req.file != undefined) {
@@ -127,12 +127,14 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
             project_data[category].plans[i].link = project.link;
             project_data[category].plans[i].is_public = project.is_public;
             res.send(UPDATED);
+	    console.log("Updating project: " + JSON.stringify(project_data[category].plans[i]));
             return;
         }
     }
 
     // New project
     project_data[category].plans.push(project);
+    console.log("Uploading project: " + JSON.stringify(project));
     res.send(SUCCESS);
 });
 
