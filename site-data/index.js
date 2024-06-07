@@ -69,7 +69,7 @@ app.get("/order", (req, res) => {
     let footer = `
         <script>
             document.getElementById("project-name").innerText = "Project: ${project.name}";
-            set_project_data = ${JSON.stringify(project)};
+            set_project_data(${JSON.stringify(project)});
         </script>
     </html>
     `;
