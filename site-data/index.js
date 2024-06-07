@@ -138,7 +138,7 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 
 app.post("/delete-project", (req, res) => {
     let project_id = req.body.id;
-    let category = req.body.category;
+    let category = categories.categories[req.body.category - 1];
 
     for (let i = 0; i < project_data[category].plans.length; i++) {
         if (project_data[category].plans[i].id == project_id) {
