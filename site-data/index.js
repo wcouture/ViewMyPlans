@@ -78,7 +78,7 @@ app.get("/get-projects", (req, res) => {
 });
 
 app.post("/upload-project", upload.single('file'), (req, res) => {
-    let category = req.body.category;
+    let category = categories.categories[req.body.category];
 
     var file_path = "#";
     
