@@ -85,7 +85,12 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
     if (req.file != undefined) {
         file_path = "data/previews/" + req.file.originalname;
 
-        fs.renameSync(req.file.path, file_path, (err) => {
+	while (file_path.includes(' ') || file_path.includes('#')){
+	    file_path = file_path.replace(' ', '_');
+	    file_path = file_path.replace('#', '');
+	}
+        
+	fs.renameSync(req.file.path, file_path, (err) => {
             if (err) {
                 console.error('Error moving the file:', err);
                 res.status(500).send('Error saving the file');
