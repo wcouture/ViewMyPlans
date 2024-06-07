@@ -68,7 +68,7 @@ app.get("/order", (req, res) => {
     let page_data = fs.readFileSync('pages/order.html', 'utf-8');
     let footer = `
         <script>
-            document.getElementById("project-name").innerText = "Project: ${project.name}";
+            document.getElementById("project-name").innerText = "Project: ${(project != undefined) ? project.name : "NONE"}";
             set_project_data(${JSON.stringify(project)});
         </script>
     </html>

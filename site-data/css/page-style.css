@@ -174,3 +174,15 @@ td {
     padding: 5px;
     font-size: 15pt;
 }
+
+.order-header {
+    width: 50%;
+
+    padding-left: 5%;
+    padding-right: 5%;
+
+    margin-left: 20%;
+    margin-right: 20%;
+
+    border-bottom: 1px solid rgba(0,0,0,0.6);
+}
