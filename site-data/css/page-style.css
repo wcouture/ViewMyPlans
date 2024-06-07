@@ -21,6 +21,11 @@ a {
     text-decoration: none;
 }
 
+.plan-card a{
+    text-decoration: underline;
+    color:rgb(56, 58, 145);
+}
+
 /*
 th {
     border-bottom: 1px solid black;
