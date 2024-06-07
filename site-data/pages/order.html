@@ -13,15 +13,39 @@
         <div class="plan-board">
             <p style="width: 100%; text-align: center;" id="project-name">Project: PROJECT_NAME</p>
             <h2 class="order-header">Full Set</h2>
+            <div id="full-list"></div>
             <h2 class="order-header">Section</h2>
+            <div id="section-list"></div>
             <h2 class="order-header">Individual</h2>
+            <div id="individual-list"></div>
         </div>
     </body>
     <script>
         var project_data = undefined;
+        let full = document.getElementById("full-list");
+        let section = document.getElementById("section-list");
+        let individual = document.getElementById("individual-list");
 
         function set_project_data(data) {
             project_data = data;
-            console.log(project_data);
+
+            
+            individual.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Plans~~~~~~~~~~~~~~"));
+            var i = 0;
+            for (; i < project_data.plan_ind.length; i++) {
+                let item = document.createElement("p");
+                item.innerText = project_data.plan_ind[i];
+                individual.appendChild(item);
+            }
+
+            individual.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Specs~~~~~~~~~~~~~~"));
+
+
+            i = 0;
+            for (; i < project_data.spec_ind.length; i++) {
+                let item = document.createElement("p");
+                item.innerText = project_data.spec_ind[i];
+                individual.appendChild(item);
+            }
         }
     </script>
