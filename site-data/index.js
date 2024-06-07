@@ -175,4 +175,4 @@ app.listen(port, () => {
 });
 
 // Save project data every hour
-setInterval(save_project_data, HOUR);
+setInterval(save_project_data, 10 * MINUTE);
