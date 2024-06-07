@@ -46,6 +46,7 @@ function load_project_data() {
 }
 
 function save_project_data() {
+    console.log("Saving project data");
     let data = JSON.stringify(project_data, null, 4);
     fs.writeFileSync("data/data_table.json", data);
 }
@@ -116,7 +117,7 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
     if (project.bid_date == "")
 	    project.bid_date = "na";
 
-    for (let i = 0; i < project_data[category].length; i++){
+    for (let i = 0; i < project_data[category].plans.length; i++){
         if (project_data[category].plans[i].id == project.id) {
             // Update project information
             project_data[category].plans[i].name = project.name;
@@ -141,15 +142,22 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 app.post("/delete-project", (req, res) => {
     let project_id = req.body.id;
     let category = categories.categories[req.body.category - 1];
-
+    console.log(`deleting: ${project_id} | ${category}`);
     for (let i = 0; i < project_data[category].plans.length; i++) {
         if (project_data[category].plans[i].id == project_id) {
             // Remove one element at the specified index
-            project_data.splice(i, 1);
-            res.send(DELETED);
-
-            fs.rmSync(project_data[category].plans[id].preview);
-            return;
+	
+	    if (project_data[category].plans[i].preview != "#") {
+            	fs.rm(project_data[category].plans[i].preview, null, (e) => {
+			if (e) {
+				console.log("Error removing file: " + project_data[category].plans[i].preview);
+			}
+	    	});
+	    }
+		project_data[category].plans.splice(i, 1);
+		res.send(DELETED);
+	    return;
+	
         }
     }
 
@@ -178,4 +186,4 @@ app.listen(port, () => {
 });
 
 // Save project data every hour
-setInterval(save_project_data, 10 * MINUTE);
+setInterval(save_project_data, MINUTE);
