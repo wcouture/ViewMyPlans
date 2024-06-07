@@ -78,13 +78,17 @@
                     access_link = '<a href="https://servius.tech/contact">Contact Us</a>';
                 }
 
+                var contractors = plan.contractor;
+                contractors = contractors.replace(" ", "");
+                contractors = contractors.replace(",", "<br>");
+
                 let card = document.createElement("div");
                 card.className = "plan-card";
                 card.innerHTML = `
                     <table>
                         <tr>
                             <td class="name-col">${plan.name}</td>
-                            <td class="contractor-col">${plan.contractor}</td>
+                            <td class="contractor-col">${contractors}</td>
                             <td class="bid-col">${plan.bid_date}</td>
                             <td class="version-col">${plan.version}</td>
 	   		                <td class="preview-col">${preview_link}</td>
