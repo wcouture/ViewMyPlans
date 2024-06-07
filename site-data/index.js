@@ -123,7 +123,13 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
         "version": req.body.version,
         "preview": file_path,
         "link": req.body.newforma,
-        "is_public": req.body.is_public
+        "is_public": req.body.is_public,
+	"plan_ind": req.body.plan_ind,
+	"plan_sec": req.body.plan_sec,
+	"plan_full": req.body.plan_full,
+	"spec_ind": req.body.sec_ind,
+	"spec_div": req.body.sec_div,
+	"spec_full": req.body.sec_full
     };
 
     if (project.contractor == "")
@@ -141,6 +147,12 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
             project_data[category].plans[i].preview = project.preview;
             project_data[category].plans[i].link = project.link;
             project_data[category].plans[i].is_public = project.is_public;
+	    project_data[category].plans[i].plan_ind = project.plan_ind;
+	    project_data[category].plans[i].plan_sec = project.plan_sec;
+	    project_data[category].plans[i].plan_full = project.plan_full;
+	    project_data[category].plans[i].spec_ind = project.spec_ind;
+	    project_data[category].plans[i].spec_div = project.spec_div;
+	    project_data[category].plans[i].spec_full = project.spec_full;
             res.send(UPDATED);
 	    console.log("Updating project: " + JSON.stringify(project_data[category].plans[i]));
             return;
