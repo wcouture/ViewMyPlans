@@ -90,12 +90,13 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 	    file_path = file_path.replace('#', '');
 	}
         
-	fs.renameSync(req.file.path, file_path, (err) => {
+	fs.rename(req.file.path, file_path, (err) => {
             if (err) {
                 console.error('Error moving the file:', err);
                 res.status(500).send('Error saving the file');
                 return;
             }
+	    console.log("File saved: " + file_path);
         })
 
     }
