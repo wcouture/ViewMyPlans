@@ -108,13 +108,14 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
         "bid_date": req.body.bid_date,
         "version": req.body.version,
         "preview": file_path,
-        "link": req.body.newforma
+        "link": req.body.newforma,
+        "is_public": req.body.is_public
     };
 
     if (project.contractor == "")
-	project.contractor = "na";
+	    project.contractor = "na";
     if (project.bid_date == "")
-	project.bid_date = "na";
+	    project.bid_date = "na";
 
     for (let i = 0; i < project_data[category].length; i++){
         if (project_data[category].plans[i].id == project.id) {
@@ -125,6 +126,7 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
             project_data[category].plans[i].version = project.version;
             project_data[category].plans[i].preview = project.preview;
             project_data[category].plans[i].link = project.link;
+            project_data[category].plans[i].is_public = project.is_public;
             res.send(UPDATED);
             return;
         }

@@ -69,10 +69,11 @@
             	let plan = plans[i];
                 var preview_link = `<a href='${plan.preview}'>preview</a>`;
                 if (plan.preview == "#") {
-                    preview_link = 'N/A';
+                    preview_link = 'NA';
                 }
 
-                var access_link = `<a href='${plan.link}'>Newforma</a>`;
+                let access_level = (Boolean(plan.is_public)) ? "Public Project" : "Private Project";
+                var access_link = `<a href='${plan.link}'>${access_level}</a>`;
                 if (plan.link == 'NA') {
                     access_link = '<a href="https://servius.tech/contact">Contact Us</a>';
                 }
