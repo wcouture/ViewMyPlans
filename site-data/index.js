@@ -111,6 +111,11 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
         "link": req.body.newforma
     };
 
+    if (project.contractor == "")
+	project.contractor = "na";
+    if (project.bid_date == "")
+	project.bid_date = "na";
+
     for (let i = 0; i < project_data[category].length; i++){
         if (project_data[category].plans[i].id == project.id) {
             // Update project information
