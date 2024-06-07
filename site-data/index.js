@@ -113,9 +113,9 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
     };
 
     if (project.contractor == "")
-	    project.contractor = "na";
+	    project.contractor = "__";
     if (project.bid_date == "")
-	    project.bid_date = "na";
+	    project.bid_date = "__";
 
     for (let i = 0; i < project_data[category].plans.length; i++){
         if (project_data[category].plans[i].id == project.id) {
