@@ -55,12 +55,26 @@ app.get("/", (req, res) => {
     res.sendFile("/pages/index.html", { root: __dirname });
 });
 
-app.get("/upload", (req, res) => {
-    res.sendFile("/pages/upload.html", { root: __dirname });
-});
-
 app.get("/order", (req, res) => {
-    res.sendFile("/pages/order.html", { root: __dirname });
+    let id = req.query.id;
+    let category = categories.categories[req.query.cat];
+    var project = undefined;
+    for (let i = 0; i < project_data[category].plans.length; i++){
+        if (project_data[category].plans[i].id == id) {
+            project = project_data[category].plans[i];
+        }
+    }
+
+    let page_data = fs.readFileSync('pages/order.html', 'utf-8');
+    let footer = `
+        <script>
+            document.getElementById("project-name").innerText = "Project: ${project.name}";
+            set_project_data = ${JSON.stringify(project)};
+        </script>
+    </html>
+    `;
+    let full_page = page_data + footer;
+    res.send(full_page);
 });
 
 app.get("/plans", (req, res) => {
