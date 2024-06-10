@@ -40,6 +40,31 @@ const categories = {
     ]
 }
 
+const transporter = nodemailer.createTransport({
+	"service": 'gmail',
+	"auth": {
+		"user": 'noreply.semblueinc@gmail.com',
+		"pass": 'zosb bsqw fyci vhkb',
+	}
+})
+
+function send_message(recipient, subject, message) {
+	let mailOptions = {
+		"from": 'noreply.semblueinc@gmail.com',
+		"to": recipient,
+		"subject": subject,
+		"html": message,
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			console.error('Error:', error);
+		} else {
+			console.log('Email sent:', info.response);
+		}	
+	})
+}
+
 function load_project_data() {
     let data = fs.readFileSync("data/data_table.json", "utf-8");
     project_data = JSON.parse(data);
@@ -78,7 +103,68 @@ app.get("/order", (req, res) => {
 });
 
 app.post("/order-request", (req, res) => {
-    console.log(req.body);
+    let data = req.body;
+
+    let full_plans = "";
+    var i = 0;
+    for (; i < data.plan_full.length; i++) {
+        full_plans += "<br>"
+        full_plans += data.plan_full[i]
+    }
+    i = 0;
+    for (; i < data.spec_full.length; i++) {
+        full_plans += "<br>"
+        full_plans += data.spec_full[i]
+    }
+
+    let secs = "";
+    i = 0;
+    for (; i < data.plan_sec.length; i++) {
+        secs += "<br>";
+        secs += data.plan_sec[i];
+    }
+
+    let divs = "";
+    i = 0;
+    for (; i < data.spec_div.length; i++) {
+        divs += "<br>";
+        divs += data.spec_div[i];
+    }
+
+    let plans = "";
+    i = 0;
+    for (; i < data.plan_ind.length; i++) {
+        plans += "<br>";
+        plans += data.plan_ind[i];
+    }
+    
+    let specs = "";
+    i = 0;
+    for (; i < data.spec_ind.length; i++) {
+        specs += "<br>";
+        specs += data.spec_ind[i];
+    }
+
+
+    let message = `
+        <body style="padding-left: 30%; padding-right: 30%;">
+            <h2 style="width: 100%; text-align: center;"><b>Plan Order Request</b></h2>
+
+            <h5><b>Full Plans:</b></h5>
+            <h6>${full_plans}</h6>
+
+            <h5><b>Sections/Divisions:</b></h5>
+            <h6>Sections: ${secs}</h6>
+            <h6>Divisions: ${divs}</h6>
+
+            <h5><b>Individuals:</b></h5>
+            <h6>Plans: ${plans}</h6>
+            <h6>Specs: ${specs}</h6>
+        <body>
+    `
+
+    send_message("wcouture17@gmail.com", "Plan Order Request", message);
+
     res.send(JSON.stringify({ "status": "success" }));
 })
 
