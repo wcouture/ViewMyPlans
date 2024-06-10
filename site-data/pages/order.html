@@ -46,6 +46,13 @@
         function set_project_data(data) {
             project_data = data;
             var i = 0;
+
+            let plans_header = document.createElement("p");
+            plans_header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
+
+            let specs_header = document.createElement("p");
+            specs_header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
+
             // Full sets
 
             var item = document.createElement("p");
@@ -59,7 +66,7 @@
 
             plan_full.appendChild(item);
 
-            
+
             item = document.createElement("p");
             item.innerText = project_data.spec_full;
             item.style = "display: flex;";
@@ -74,6 +81,7 @@
             // Sections/Divisions
 
             i = 0;
+            plan_sec.appendChild(plans_header);
             for (; i < project_data.plan_sec.length; i++) {
                 item = document.createElement("p");
                 item.style = "display: flex;";
@@ -88,6 +96,7 @@
             }
 
             i = 0;
+            spec_div.appendChild(specs_header);
             for (; i < project_data.spec_div.length; i++) {
                 item = document.createElement("p");
                 item.style = "display: flex;";
@@ -103,10 +112,7 @@
 
             // Individuals
 
-            var header = document.createElement("p");
-		    header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
-
-            plan_ind.appendChild(header);
+            plan_ind.appendChild(plans_header);
             i = 0;
             for (; i < project_data.plan_ind.length; i++) {
                 item = document.createElement("p");
@@ -121,9 +127,7 @@
                 plan_ind.appendChild(item);
             }
 
-		    header = document.createElement("p");
-		    header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
-            spec_ind.appendChild(header);
+            spec_ind.appendChild(specs_header);
 
             i = 0;
             for (; i < project_data.spec_ind.length; i++) {
