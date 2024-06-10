@@ -17,35 +17,39 @@
             <h2 class="order-header">Section</h2>
             <div id="section-list"></div>
             <h2 class="order-header">Individual</h2>
-            <div id="individual-list"></div>
+            <div style="display: flex;" id="individual-list">
+                <div style="margin-left: auto; margin-right: auto; width: auto;" id="plan-column-ind"></div>
+                <div style="margin-left: auto; margin-right: auto; width: auto;" id="spec-column-ind"></div>
+            </div>
         </div>
     </body>
     <script>
         var project_data = undefined;
         let full = document.getElementById("full-list");
         let section = document.getElementById("section-list");
-        let individual = document.getElementById("individual-list");
+        let plan_ind = document.getElementById("plan-column-ind");
+        let spec_ind = document.getElementById("sped-column-ind");
 
         function set_project_data(data) {
             project_data = data;
 
             
-            individual.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Plans~~~~~~~~~~~~~~"));
+            plan_ind.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Plans~~~~~~~~~~~~~~"));
             var i = 0;
             for (; i < project_data.plan_ind.length; i++) {
                 let item = document.createElement("p");
                 item.innerText = project_data.plan_ind[i];
-                individual.appendChild(item);
+                plan_ind.appendChild(item);
             }
 
-            individual.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Specs~~~~~~~~~~~~~~"));
+            spec_ind.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Specs~~~~~~~~~~~~~~"));
 
 
             i = 0;
             for (; i < project_data.spec_ind.length; i++) {
                 let item = document.createElement("p");
                 item.innerText = project_data.spec_ind[i];
-                individual.appendChild(item);
+                spec_ind.appendChild(item);
             }
         }
     </script>
