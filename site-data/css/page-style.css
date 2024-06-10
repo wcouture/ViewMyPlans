@@ -203,3 +203,15 @@ td {
 ::-webkit-scrollbar-thumb:hover {
     background: #9b9b9b;
 }
+
+#submit-button {
+    width: 100px;
+    height: 35px;
+    background-color: white;
+    color: black;
+}
+
+#submit-button:hover {
+    background-color: #292b7c;
+    color: white;
+}
