@@ -112,6 +112,8 @@
 
             // Individuals
 
+            plans_header = document.createElement("p");
+            plans_header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
             plan_ind.appendChild(plans_header);
             i = 0;
             for (; i < project_data.plan_ind.length; i++) {
@@ -127,8 +129,9 @@
                 plan_ind.appendChild(item);
             }
 
+            specs_header = document.createElement("p");
+            specs_header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
             spec_ind.appendChild(specs_header);
-
             i = 0;
             for (; i < project_data.spec_ind.length; i++) {
                 item = document.createElement("p");
