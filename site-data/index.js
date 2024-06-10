@@ -31,7 +31,7 @@ const categories = {
     "categories": [
         "Commercial",
         "School",
-        "City & County",
+        "City and County",
         "State of Florida",
         "Church",
         "Residential",
@@ -181,13 +181,13 @@ app.get("/categories", (req, res) => {
 
 app.get("/get-projects", (req, res) => {
     let category = req.query.category;
-    let data = project_data[category];
+    console.log("Category: " + category);
+	let data = project_data[category];
     res.send(JSON.stringify(data));
 });
 
 app.post("/upload-project", upload.single('file'), (req, res) => {
     let category = categories.categories[req.body.category - 1];
-    console.log("Category: " + category);
     var file_path = "#";
     
     if (req.file != undefined) {
@@ -261,21 +261,18 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 	    project_data[category].plans[i].spec_div = project.spec_div;
 	    project_data[category].plans[i].spec_full = project.spec_full;
             res.send(UPDATED);
-	    console.log("Updating project: " + JSON.stringify(project_data[category].plans[i]));
             return;
         }
     }
 
     // New project
     project_data[category].plans.push(project);
-    console.log("Uploading project: " + JSON.stringify(project));
     res.send(SUCCESS);
 });
 
 app.post("/delete-project", (req, res) => {
     let project_id = req.body.id;
     let category = categories.categories[req.body.category - 1];
-    console.log(`deleting: ${project_id} | ${category}`);
     for (let i = 0; i < project_data[category].plans.length; i++) {
         if (project_data[category].plans[i].id == project_id) {
             // Remove one element at the specified index
@@ -319,4 +316,4 @@ app.listen(port, () => {
 });
 
 // Save project data every hour
-setInterval(save_project_data, MINUTE);
+setInterval(save_project_data, 5 * MINUTE);
