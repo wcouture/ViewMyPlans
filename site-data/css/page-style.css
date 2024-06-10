@@ -224,3 +224,18 @@ td {
     background-color: #292b7c;
     color: white;
 }
+
+.return-button {
+    width: auto;
+    margin-left: 45%;
+    margin-right: 45%;
+    padding: 10px;
+
+    border-radius: 5px;
+    background: white;
+}
+
+.return-button:hover {
+    background-color: #292b7c;
+    color: white;
+}

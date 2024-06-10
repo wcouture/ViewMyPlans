@@ -132,7 +132,10 @@
                 if (res.status == 'success') {
                     board.className = "plan-board hidden";
                     setTimeout(() => {
-                        board.innerHTML = "Plan order request submitted;";
+                        board.innerHTML = `
+                            <p style="width: 100%; text-align: center;">Plan order request submitted;</p>
+                            <a class="return-button" href="/plans">View Plans</a>
+                            `;
                         board.className = "plan-board";
                     }, 500);
                 }
