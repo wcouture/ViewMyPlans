@@ -77,7 +77,7 @@ app.get("/order", (req, res) => {
     res.send(full_page);
 });
 
-app.post("order-request", (req, res) => {
+app.post("/order-request", (req, res) => {
     console.log(req.body);
     res.send(JSON.stringify({ "status": "success" }));
 })
