@@ -37,8 +37,7 @@
     </body>
     <script>
         var project_data = undefined;
-        let full = document.getElementById("full-list");
-        let section = document.getElementById("section-list");
+        let board = document.getElementsByClassName("plan-board")[0];
 
         let plan_ind = document.getElementById("plan-column-ind");
         let spec_ind = document.getElementById("spec-column-ind");
@@ -131,8 +130,11 @@
             .then((response) => response.json())
             .then((res) => {
                 if (res.status == 'success') {
-                    alert("Order request submitted.");
-                    open("/")
+                    board.className = "plan-board hidden";
+                    setTimeout(() => {
+                        board.innerHTML = "Plan order request submitted;";
+                        board.className = "plan-board";
+                    }, 500);
                 }
             })
         })
