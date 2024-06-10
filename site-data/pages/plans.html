@@ -56,10 +56,18 @@
     <script>
         let tab_bar = document.getElementsByClassName("tab-bar")[0];
         let board = document.getElementById("plan-board");
+        let search_bar = document.getElementById("search-bar");
         let tabs = []
         var category = 0;
         let categories = [];
         let plans = [];
+        var match_phrase = "";
+
+        search_bar.addEventListener("input", (e) => {
+            console.log("phrase change")
+            match_phrase = e.target.value;
+            populate_list();
+        })
 
         function populate_list() {
             let cards = document.getElementsByClassName("plan-card");
@@ -68,6 +76,11 @@
 
 	        for (let i = plans.length - 1; i >= 0; i--) {
             	let plan = plans[i];
+
+                if (plan.name.toUpperCase().includes(match_phrase.toUpperCase()) == false){
+                    continue;
+                }
+
                 var preview_link = `<a href='${plan.preview}'>preview</a>`;
                 if (plan.preview == "#") {
                     preview_link = 'NA';
