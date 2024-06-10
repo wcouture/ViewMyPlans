@@ -28,9 +28,10 @@
 
         function set_project_data(data) {
             project_data = data;
-
+		var header = document.createElement("p");
+		header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
             
-            individual.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Plans~~~~~~~~~~~~~~"));
+            individual.appendChild(header);
             var i = 0;
             for (; i < project_data.plan_ind.length; i++) {
                 let item = document.createElement("p");
@@ -38,7 +39,9 @@
                 individual.appendChild(item);
             }
 
-            individual.appendChild(document.createElement("p").innerText("~~~~~~~~~~~~~~Specs~~~~~~~~~~~~~~"));
+		header = document.createElement("p");
+		header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
+            individual.appendChild(header);
 
 
             i = 0;
