@@ -52,6 +52,7 @@
                 item.innerText = project_data.plan_sec[i];
 
                 let checkbox = document.createElement("input");
+                checkbox.id = project_data.plan_sec[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
 
@@ -65,8 +66,9 @@
                 item.innerText = project_data.spec_div[i];
 
                 let checkbox = document.createElement("input");
+                checkbox.id = project_data.spec_div[i];
                 checkbox.type = "checkbox";
-                item.appednChild(checkbox);
+                item.appendChild(checkbox);
 
                 spec_div.appendChild(item);
             }
@@ -81,6 +83,13 @@
             for (; i < project_data.plan_ind.length; i++) {
                 let item = document.createElement("p");
                 item.innerText = project_data.plan_ind[i];
+                item.style = "display: flex;";
+
+                let checkbox = document.createElement("input");
+                checkbox.id = project_data.plan_ind[i];
+                checkbox.type = "checkbox";
+                item.appendChild(checkbox);
+
                 plan_ind.appendChild(item);
             }
 
@@ -92,6 +101,13 @@
             for (; i < project_data.spec_ind.length; i++) {
                 let item = document.createElement("p");
                 item.innerText = project_data.spec_ind[i];
+                item.style = "display: flex;";
+
+                let checkbox = document.createElement("input");
+                checkbox.id = project_data.spec_ind[i];
+                checkbox.type = "checkbox";
+                item.appendChild(checkbox);
+                
                 spec_ind.appendChild(item);
             }
         }
