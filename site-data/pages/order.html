@@ -15,7 +15,10 @@
             <h2 class="order-header">Full Set</h2>
             <div id="full-list"></div>
             <h2 class="order-header">Section</h2>
-            <div id="section-list"></div>
+            <div id="section-list">
+                <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="plan-column-sec"></div>
+                <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="spec-column-div"></div>
+            </div>
             <h2 class="order-header">Individual</h2>
             <div style="display: flex;" id="individual-list">
                 <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="plan-column-ind"></div>
@@ -27,24 +30,62 @@
         var project_data = undefined;
         let full = document.getElementById("full-list");
         let section = document.getElementById("section-list");
+
         let plan_ind = document.getElementById("plan-column-ind");
         let spec_ind = document.getElementById("spec-column-ind");
 
+        let plan_sec = document.getElementById("plan-column-sec");
+        let spec_div = document.getElementById("spec-column-div");
+
         function set_project_data(data) {
             project_data = data;
-		var header = document.createElement("p");
-		header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
+            var i = 0;
+            // Full sets
+
+
+            // Sections/Divisions
+
+            i = 0;
+            for (; i < project_data.plan_sec.length; i++) {
+                let item = document.createElement("p");
+                item.style = "display: flex;";
+                item.innerText = project_data.plan_sec[i];
+
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                item.appendChild(checkbox);
+
+                plan_sec.appendChild(item);
+            }
+
+            i = 0;
+            for (; i < project_data.spec_div.length; i++) {
+                let item = document.createElement("p");
+                item.style = "display: flex;";
+                item.innerText = project_data.spec_div[i];
+
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                item.appednChild(checkbox);
+
+                spec_div.appendChild(item);
+            }
+
+            // Individuals
+
+            var header = document.createElement("p");
+		    header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
 
             plan_ind.appendChild(header);
-            var i = 0;
+            i = 0;
             for (; i < project_data.plan_ind.length; i++) {
                 let item = document.createElement("p");
                 item.innerText = project_data.plan_ind[i];
                 plan_ind.appendChild(item);
             }
 
-		header = document.createElement("p");
-		header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
+		    header = document.createElement("p");
+		    header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
             spec_ind.appendChild(header);
 
             i = 0;
