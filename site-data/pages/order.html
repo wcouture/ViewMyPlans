@@ -13,9 +13,12 @@
         <div class="plan-board">
             <p style="width: 100%; text-align: center;" id="project-name">Project: PROJECT_NAME</p>
             <h2 class="order-header">Full Set</h2>
-            <div id="full-list"></div>
+            <div id="full-list">
+                <div id="plan-column-full"></div>
+                <div id="spec-column-full"></div>
+            </div>
             <h2 class="order-header">Section</h2>
-            <div id="section-list">
+            <div style="display: flex;" id="section-list">
                 <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="plan-column-sec"></div>
                 <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="spec-column-div"></div>
             </div>
@@ -37,21 +40,46 @@
         let plan_sec = document.getElementById("plan-column-sec");
         let spec_div = document.getElementById("spec-column-div");
 
+        let plan_full = document.getElementById("plan-column-full");
+        let spec_full = document.getElementById("spec-column-full");
+
         function set_project_data(data) {
             project_data = data;
             var i = 0;
             // Full sets
 
+            var item = document.createElement("p");
+            item.innerText = project_data.plan_full;
+            item.style = "display: flex;";
+
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = project_data.plan_full;
+            item.appendChild(checkbox);
+
+            plan_full.appendChild(item);
+
+            
+            item = document.createElement("p");
+            item.innerText = project_data.spec_full;
+            item.style = "display: flex;";
+
+            checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = project_data.spec_full;
+            item.appendChild(checkbox);
+
+            spec_full.appendChild(item);
 
             // Sections/Divisions
 
             i = 0;
             for (; i < project_data.plan_sec.length; i++) {
-                let item = document.createElement("p");
+                item = document.createElement("p");
                 item.style = "display: flex;";
                 item.innerText = project_data.plan_sec[i];
 
-                let checkbox = document.createElement("input");
+                checkbox = document.createElement("input");
                 checkbox.id = project_data.plan_sec[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
@@ -61,11 +89,11 @@
 
             i = 0;
             for (; i < project_data.spec_div.length; i++) {
-                let item = document.createElement("p");
+                item = document.createElement("p");
                 item.style = "display: flex;";
                 item.innerText = project_data.spec_div[i];
 
-                let checkbox = document.createElement("input");
+                checkbox = document.createElement("input");
                 checkbox.id = project_data.spec_div[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
@@ -81,11 +109,11 @@
             plan_ind.appendChild(header);
             i = 0;
             for (; i < project_data.plan_ind.length; i++) {
-                let item = document.createElement("p");
+                item = document.createElement("p");
                 item.innerText = project_data.plan_ind[i];
                 item.style = "display: flex;";
 
-                let checkbox = document.createElement("input");
+                checkbox = document.createElement("input");
                 checkbox.id = project_data.plan_ind[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
@@ -99,15 +127,15 @@
 
             i = 0;
             for (; i < project_data.spec_ind.length; i++) {
-                let item = document.createElement("p");
+                item = document.createElement("p");
                 item.innerText = project_data.spec_ind[i];
                 item.style = "display: flex;";
 
-                let checkbox = document.createElement("input");
+                checkbox = document.createElement("input");
                 checkbox.id = project_data.spec_ind[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
-                
+
                 spec_ind.appendChild(item);
             }
         }
