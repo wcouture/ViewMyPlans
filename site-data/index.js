@@ -132,6 +132,19 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 	"spec_full": req.body.sec_full
     };
 
+	if (project.plan_ind == undefined)
+		project.plan_ind = [];
+	if (project.plan_sec == undefined)
+		project.plan_sec = [];
+	if (project.plan_full == undefined)
+		project.plan_full = "NA";
+	if (project.spec_ind == undefined)
+		project.spec_ind = [];
+	if (project.spec_div == undefined)
+		project.spec_div = [];
+	if (project.spec_full == undefined)
+		project.spec_full = "NA";
+
     if (project.contractor == "")
 	    project.contractor = "__";
     if (project.bid_date == "")
