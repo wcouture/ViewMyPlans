@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
 
 const port = 3005;
 
+let message_recipient = "eaststore@semblueinc.com";
+
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
@@ -149,6 +151,7 @@ app.post("/order-request", (req, res) => {
     let message = `
         <body style="padding-left: 30%; padding-right: 30%;">
             <h2 style="width: 100%; text-align: center;"><b>Plan Order Request</b></h2>
+            <h7>${data.email}</h7>
 
             <h5><b>Full Plans:</b></h5>
             <h6>${full_plans}</h6>
@@ -163,7 +166,7 @@ app.post("/order-request", (req, res) => {
         <body>
     `
 
-    send_message("wcouture17@gmail.com", "Plan Order Request", message);
+    send_message(message_recipient, "Plan Order Request", message);
 
     res.send(JSON.stringify({ "status": "success" }));
 })
