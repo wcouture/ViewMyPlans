@@ -86,7 +86,7 @@
                     preview_link = 'NA';
                 }
 
-                let access_level = (Boolean(plan.is_public)) ? "Public Project" : "Private Project";
+                let access_level = (plan.is_public == "Yes") ? "Public Project" : "Private Project";
                 var access_link = `<a href='${plan.link}'>${access_level}</a>`;
                 if (plan.link == 'NA') {
                     access_link = '<a href="https://servius.tech/contact">Contact Us</a>';
