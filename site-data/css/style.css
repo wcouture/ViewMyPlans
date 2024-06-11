@@ -1,9 +1,15 @@
+@font-face {
+    font-family: 'ElegantType'; /*a name to be used later*/
+    src: url('/fonts/et_regular.ttf'); /*URL to font*/
+}
+
 html {
     overflow-x: hidden;
+    font-family: 'ElegantType';    
 }
 
 h1 {
-    font-family: "Satisfy", cursive;
+
     font-size: 75pt;
     position: absolute;
     left: 20%;
@@ -47,7 +53,6 @@ body {
     background: url("/images/monocle-transformed.png");
     background-size:cover;
     background-repeat: no-repeat;
-    font-family: "Freeman", sans-serif;
 }
 
 .nav-buttons {

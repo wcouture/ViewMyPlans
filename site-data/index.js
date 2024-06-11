@@ -181,7 +181,6 @@ app.get("/categories", (req, res) => {
 
 app.get("/get-projects", (req, res) => {
     let category = req.query.category;
-    console.log("Category: " + category);
 	let data = project_data[category];
     res.send(JSON.stringify(data));
 });
