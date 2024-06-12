@@ -310,6 +310,10 @@ app.get("/:dir/:file", (req, res) => {
     res.sendFile(`/${req.params.dir}/${req.params.file}`, { root: __dirname });
 })
 
+app.get("/:dir1/:dir2/:file", (req, res) => {
+    res.sendFile(`/${req.params.dir1}/${req.params.dir2}/${req.params.file}`, { root: __dirname })
+})
+
 app.listen(port, () => {
     console.log(`Semblueinc listening on port ${port}`);
     load_project_data();
