@@ -9,6 +9,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Freeman&family=Satisfy&display=swap" rel="stylesheet">
     </head>
     <body>
+        <a class="back-to-plans" href="/plans">Back</a>
         <div class="title-bar">Plan Order Form</div>
         <div class="plan-board">
             <p style="width: 100%; text-align: center;" id="project-name">Project: PROJECT_NAME</p>
@@ -18,17 +19,17 @@
                 <input style="width: auto; margin-left: auto; margin-right: auto;" type="submit" id="submit-button" value="SUBMIT">
             </div>
             
-            <h2 class="order-header">Full Set</h2>
+            <h2 id="full-header" class="order-header">Full Set</h2>
             <div style="text-align: center;" id="full-list">
                 <div id="plan-column-full"></div>
                 <div id="spec-column-full"></div>
             </div>
-            <h2 class="order-header">Section</h2>
+            <h2 id="section-header" class="order-header">Section</h2>
             <div style="display: flex; width: 50%; margin-left: 25%; margin-right: 25%;" id="section-list">
                 <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="plan-column-sec"></div>
                 <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="spec-column-div"></div>
             </div>
-            <h2 class="order-header">Individual</h2>
+            <h2 id="individual-header" class="order-header">Individual</h2>
             <div style="display: flex; width: 50%; margin-left: 25%; margin-right: 25%;" id="individual-list">
                 <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="plan-column-ind"></div>
                 <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="spec-column-ind"></div>
@@ -198,6 +199,12 @@
                 plan_sec.appendChild(item);
             }
 
+            if (i == 0) {
+                item = document.createElement("p");
+                item.innerText = "None available";
+                plan_sec.appendChild(item);
+            }
+
             i = 0;
             spec_div.appendChild(specs_header);
             for (; i < project_data.spec_div.length; i++) {
@@ -211,6 +218,12 @@
                 item.appendChild(checkbox);
                 spec_div_boxes.push(checkbox);
 
+                spec_div.appendChild(item);
+            }
+
+            if (i == 0) {
+                item = document.createElement("p");
+                item.innerText = "None available";
                 spec_div.appendChild(item);
             }
 
@@ -234,6 +247,12 @@
                 plan_ind.appendChild(item);
             }
 
+            if (i == 0) {
+                item = document.createElement("p");
+                item.innerText = "None available";
+                plan_ind.appendChild(item);
+            }
+
             specs_header = document.createElement("p");
             specs_header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
             spec_ind.appendChild(specs_header);
@@ -249,6 +268,12 @@
                 item.appendChild(checkbox);
                 spec_ind_boxes.push(checkbox);
 
+                spec_ind.appendChild(item);
+            }
+
+            if (i == 0) {
+                item = document.createElement("p");
+                item.innerText = "None available";
                 spec_ind.appendChild(item);
             }
         }

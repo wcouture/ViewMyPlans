@@ -243,3 +243,16 @@ td {
     background-color: #292b7c;
     color: white;
 }
+
+.back-to-plans {
+    position: absolute; 
+    left: 20%; 
+    top: 5%; 
+    font-size: 15pt;
+
+    text-decoration: underline;
+}
+
+.back-to-plans:hover {
+    color:#292b7c;
+}
