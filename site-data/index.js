@@ -230,13 +230,13 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 		project.plan_ind = [];
 	if (project.plan_sec == undefined)
 		project.plan_sec = [];
-	if (project.plan_full == undefined)
+	if (project.plan_full == undefined || project.plan_full == "")
 		project.plan_full = "NA";
 	if (project.spec_ind == undefined)
 		project.spec_ind = [];
 	if (project.spec_div == undefined)
 		project.spec_div = [];
-	if (project.spec_full == undefined)
+	if (project.spec_full == undefined || project.spec_full == "")
 		project.spec_full = "NA";
 
     if (project.contractor == "")
