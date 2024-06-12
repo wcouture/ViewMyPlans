@@ -10,7 +10,8 @@ html {
 
 h1 {
 
-    font-size: 75pt;
+    font-size: 60pt;
+    font-weight: 300;
     position: absolute;
     left: 20%;
 }
