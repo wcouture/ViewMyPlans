@@ -56,6 +56,10 @@ body {
     background-repeat: no-repeat;
 }
 
+input {
+    font-family: 'ElegantType';
+}
+
 .nav-buttons {
     max-width: 15%;
     position: absolute;

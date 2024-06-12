@@ -16,7 +16,8 @@
         </div>
 
         <div style="display: flex; align-content: center; padding: 10px;">
-            <input placeholder="search..." type="text" id="search-bar">
+            <p style="margin-left: auto; margin-right: 10px;">Search:</p>
+            <input placeholder="name, contractor, bid date, version..." type="text" id="search-bar">
         </div>
 
         <div class="header-board">
@@ -68,6 +69,22 @@
             match_phrase = e.target.value;
             populate_list();
         })
+        
+        function keyword_match_check(plan) {
+            let keyword = match_phrase.toUpperCase();
+            
+            let name = plan.name.toUpperCase();
+            let contractor = plan.contractor.toUpperCase();
+            let version = plan.version.toUpperCase();
+            let bid_date = plan.bid_date;
+
+            let name_match = name.includes(keyword);
+            let contractor_match = contractor.includes(keyword);
+            let version_match = version.includes(keyword);
+            let bid_date_match = bid_date.includes(keyword);
+
+            return name_match || contractor_match || version_match || bid_date_match;
+        }
 
         function populate_list() {
             let cards = document.getElementsByClassName("plan-card");
@@ -77,7 +94,7 @@
 	        for (let i = plans.length - 1; i >= 0; i--) {
             	let plan = plans[i];
 
-                if (plan.name.toUpperCase().includes(match_phrase.toUpperCase()) == false){
+                if (keyword_match_check(plan) == false){
                     continue;
                 }
 

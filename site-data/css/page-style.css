@@ -182,10 +182,13 @@ td {
 }
 
 #search-bar {
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
+
+    width: 200pt;
     padding: 5px;
-    font-size: 15pt;
+
+    font-size: 10pt;
 }
 
 .order-header {
