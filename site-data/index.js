@@ -306,6 +306,10 @@ app.get("/online-set", (req, res) => {
     res.send(NOT_FOUND);
 });
 
+app.get("/get-preview", (req, res) => {
+    res.sendFile(`/data/previews/${req.query.file}`, { root: __dirname });
+});
+
 app.get("/:dir/:file", (req, res) => {
     res.sendFile(`/${req.params.dir}/${req.params.file}`, { root: __dirname });
 })
