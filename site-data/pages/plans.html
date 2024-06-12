@@ -58,6 +58,7 @@
         let tab_bar = document.getElementsByClassName("tab-bar")[0];
         let board = document.getElementById("plan-board");
         let search_bar = document.getElementById("search-bar");
+        var no_projects_card = undefined;
         let tabs = []
         var category = 0;
         let categories = [];
@@ -90,6 +91,11 @@
             let cards = document.getElementsByClassName("plan-card");
             while (cards.length > 0)
                 cards[0].remove();
+
+            if (no_projects_card != undefined){
+                no_projects_card.remove();
+                no_projects_card = undefined;
+            }
 
 	        for (let i = plans.length - 1; i >= 0; i--) {
             	let plan = plans[i];
@@ -130,6 +136,14 @@
                 `;
 
                 board.appendChild(card);
+            }
+
+            if (plans.length == 0) {
+                no_projects_card = document.createElement("div");
+                no_projects_card.style = "width: 100%; text-align: center;";
+                no_projects_card.innerText = "No current projects";
+
+                board.appendChild(no_projects_card);
             }
         }
 
