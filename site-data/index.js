@@ -30,6 +30,7 @@ var project_data = {};
 
 const categories = {
     "categories": [
+	"All",
         "Commercial",
         "School",
         "City and County",
