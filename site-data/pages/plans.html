@@ -24,6 +24,7 @@
             <input placeholder="name, contractor, bid date, version..." type="text" id="search-bar">
         </div>
 
+        <p style="font-size: 8pt; margin: 0; width: 100%; text-align: center;">Click field header to sort listings by value.</p>
         <div class="header-board">
             <div class="header-card">
                 <table>
@@ -232,6 +233,23 @@
             plans = plans.sort((a, b) => {
                 let string1 = a[sort_field];
                 let string2 = b[sort_field];
+
+                if (sort_field == "bid_date"){
+                    // Handle dates
+                    let date1 = new Date(string1);
+                    let date2 = new Date(string2);
+
+                    let year_dif = date1.getFullYear() - date2.getFullYear();
+                    if (year_dif != 0)
+                        return year_dif;
+
+                    let month_dif = date1.getMonth() - date2.getMonth();
+                    if (month_dif != 0)
+                        return month_dif;
+
+                    let day_dif = date1.getDate() - date2.getDate();
+                    return day_dif;
+                }
 
                 if (string1 < string2) {
                     return -1;
