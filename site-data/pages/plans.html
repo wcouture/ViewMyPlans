@@ -236,19 +236,27 @@
 
                 if (sort_field == "bid_date"){
                     // Handle dates
-                    let date1 = new Date(string1);
-                    let date2 = new Date(string2);
+                    var date1 = new Date(string1);
+                    var date2 = new Date(string2);
 
+                    if (date1.toString() == "Invalid Date") {
+                        date1 = new Date(0);
+                    }
+
+                    if (date2.toString() == "Invalid Date") {
+                        date2 = new Date(0);
+                    }
+ 
                     let year_dif = date1.getFullYear() - date2.getFullYear();
                     if (year_dif != 0)
-                        return year_dif;
+                        return -year_dif;
 
                     let month_dif = date1.getMonth() - date2.getMonth();
                     if (month_dif != 0)
-                        return month_dif;
+                        return -month_dif;
 
                     let day_dif = date1.getDate() - date2.getDate();
-                    return day_dif;
+                    return -day_dif;
                 }
 
                 if (string1 < string2) {
