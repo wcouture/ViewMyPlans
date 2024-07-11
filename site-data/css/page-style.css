@@ -259,3 +259,7 @@ td {
 .back-to-plans:hover {
     color:#292b7c;
 }
+
+.field_label:hover {
+    color: #929292;
+}
