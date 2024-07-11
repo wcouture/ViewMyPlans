@@ -30,7 +30,6 @@ var project_data = {};
 
 const categories = {
     "categories": [
-	"All",
         "Commercial",
         "School",
         "City and County",
@@ -183,7 +182,20 @@ app.get("/categories", (req, res) => {
 
 app.get("/get-projects", (req, res) => {
     let category = req.query.category;
-	let data = project_data[category];
+    var data = {"plans": []};
+    
+    if (category == "All") {
+        for(let i = 0; i < categories["categories"].length; i++) {
+            let curr_cat = categories["categories"][i];
+            let cat_data = project_data[curr_cat];
+            data["plans"] = data["plans"].concat(cat_data["plans"]);
+        }
+
+        res.send(JSON.stringify(data));
+        return;
+    }
+
+	data = project_data[category];
     res.send(JSON.stringify(data));
 });
 

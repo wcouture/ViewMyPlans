@@ -65,13 +65,29 @@
         var no_projects_card = undefined;
         let tabs = []
         var category = 0;
+        var saved_category = -1;
         let categories = [];
         let plans = [];
         var match_phrase = "";
 
+
         search_bar.addEventListener("input", (e) => {
-            console.log("phrase change")
             match_phrase = e.target.value;
+
+
+            if (match_phrase.length > 0 && category != -1) {
+                saved_category = category;
+                category = -1;
+                set_active_tab();
+                retrieve_plans();
+            }
+            else if (match_phrase.length == 0 && category == -1) {
+                category = saved_category;
+                saved_category = -1;
+                set_active_tab();
+                retrieve_plans();
+            }
+
             populate_list();
         })
         
@@ -109,7 +125,6 @@
                 }
 
                 let file_name = plan.preview.substring(14)
-                console.log(file_name)
                 
                 var preview_link = `<a href='/get-preview?file=${file_name}' target="_blank">preview</a>`;
                 if (plan.preview == "#") {
@@ -155,7 +170,14 @@
         }
 
         function retrieve_plans() {
-            let cat_name = categories[category];
+            var cat_name = undefined;
+            if (category == -1) {
+                cat_name = "All";
+            }
+            else {
+                cat_name = categories[category];
+            }
+            
             // Fetch plans
             let config = {
                 method: "GET",
