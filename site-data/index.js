@@ -252,9 +252,9 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 	"plan_ind": req.body.plan_ind,
 	"plan_sec": req.body.plan_sec,
 	"plan_full": req.body.plan_full,
-	"spec_ind": req.body.sec_ind,
-	"spec_div": req.body.sec_div,
-	"spec_full": req.body.sec_full
+	"spec_ind": req.body.spec_ind,
+	"spec_div": req.body.spec_div,
+	"spec_full": req.body.spec_full
     };
 
 	if (project.plan_ind == undefined)
