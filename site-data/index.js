@@ -86,10 +86,28 @@ app.get("/", (req, res) => {
 app.get("/order", (req, res) => {
     let id = req.query.id;
     let category = categories.categories[req.query.cat];
+
     var project = undefined;
-    for (let i = 0; i < project_data[category].plans.length; i++){
-        if (project_data[category].plans[i].id == id) {
-            project = project_data[category].plans[i];
+
+    if (req.query.cat == -1) {
+        for (let i = 0; i < categories.categories.length; i++) {
+            let curr_cat = categories.categories[i];
+
+            for (let j = 0; j < project_data[curr_cat].plans.length; j++){
+                if (project_data[curr_cat].plans[j].id == id) {
+                    project = project_data[curr_cat].plans[j];
+                }
+            }
+
+            if (project != undefined)
+                break;
+        }
+    }
+    else {
+        for (let i = 0; i < project_data[category].plans.length; i++){
+            if (project_data[category].plans[i].id == id) {
+                project = project_data[category].plans[i];
+            }
         }
     }
 
