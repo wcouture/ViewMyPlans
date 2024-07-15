@@ -14,20 +14,35 @@ app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
 
 const port = 3005;
 
-let message_recipient = "eaststore@semblueinc.com";
+/* 
+    The email to which all messages and requests will be sent to.
+*/
+const message_recipient = "eaststore@semblueinc.com";
 
+/*
+    Time related constants used for delayed actions
+    and calculating dates
+*/
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
+/*
+    Act as result constants to be returned during 
+    one-way transactions such as posting data
+*/
 const SUCCESS = JSON.stringify({ "status": "project added" });
 const UPDATED = JSON.stringify({ "status": "project updated" });
 const DELETED = JSON.stringify({ "status": "project deleted" });
 const NOT_FOUND = JSON.stringify({ "status": "project not found" });
 
+// Will hold all project data once read in from file on server start
 var project_data = {};
 
+/*
+    Container of category constants to be used for tabs on plans list
+*/
 const categories = {
     "categories": [
         "Commercial",
@@ -43,6 +58,10 @@ const categories = {
     ]
 }
 
+/*
+    Initializes nodemailer to allow for sending message and requests
+    through email.
+*/
 const transporter = nodemailer.createTransport({
 	"service": 'gmail',
 	"auth": {
@@ -51,6 +70,11 @@ const transporter = nodemailer.createTransport({
 	}
 })
 
+/*
+    Handles message sending through the nodemailer module.
+    Takes in the recipient, subject and message, and then sends
+    the message from the noreply.semblueinc@gmail.com email.
+*/
 function send_message(recipient, subject, message) {
 	let mailOptions = {
 		"from": 'noreply.semblueinc@gmail.com',
@@ -68,21 +92,40 @@ function send_message(recipient, subject, message) {
 	})
 }
 
+/*
+    Called on server start, reads in project data from the
+    data_table.json file and stores data in project_data
+    object.
+*/
 function load_project_data() {
     let data = fs.readFileSync("data/data_table.json", "utf-8");
     project_data = JSON.parse(data);
 }
 
+/*
+    Serializes project data stored in the project_data object
+    and saves it to file at data_table.json
+*/
 function save_project_data() {
     console.log("Saving project data");
     let data = JSON.stringify(project_data, null, 4);
     fs.writeFileSync("data/data_table.json", data);
 }
 
+
+/*
+    Returns the monocle landing page with links to all sister sites
+    and the list of all tracked projects.
+*/
 app.get("/", (req, res) => {
     res.sendFile("/pages/index.html", { root: __dirname });
 });
 
+/*
+    Returns order page for project selected. Displays all available
+    plans and pages on file to be selected. Submitted requests are
+    sent as POST requests to /order-request.
+*/
 app.get("/order", (req, res) => {
     let id = req.query.id;
     let category = categories.categories[req.query.cat];
@@ -123,6 +166,12 @@ app.get("/order", (req, res) => {
     res.send(full_page);
 });
 
+/*
+    Handles plan set order requests submitted from the order
+    page on viewmyplans. Displays all selected sets along
+    with project name and submitter email within message to 
+    be sent to the specified message_recipient constant.
+*/
 app.post("/order-request", (req, res) => {
     let data = req.body;
 
@@ -191,14 +240,27 @@ app.post("/order-request", (req, res) => {
     res.send(JSON.stringify({ "status": "success" }));
 })
 
+/*
+    Returns the listings page to view all current
+    projects being tracked.
+*/
 app.get("/plans", (req, res) => {
     res.sendFile("/pages/plans.html", { root: __dirname });
 });
 
+/*
+    Returns the list of all valid categories in the system.
+*/
 app.get("/categories", (req, res) => {
     res.send(JSON.stringify(categories));
 });
 
+/*
+    Retrieves list of projects coinciding with the provided category.
+    Returns combined list of all projects when "All" provided
+    for category.
+    Used for viewmyplans listing page when switching categories.
+*/
 app.get("/get-projects", (req, res) => {
     let category = req.query.category;
     var data = {"plans": []};
@@ -218,6 +280,11 @@ app.get("/get-projects", (req, res) => {
     res.send(JSON.stringify(data));
 });
 
+/*
+    Handles project data uploads and updates.
+    Used by data upload and sync program keeping
+    local and server data in sync.
+*/ 
 app.post("/upload-project", upload.single('file'), (req, res) => {
     let category = categories.categories[req.body.category - 1];
     var file_path = "#";
@@ -302,6 +369,11 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
     res.send(SUCCESS);
 });
 
+/*
+    Searches for project with specified id within specified
+    category. If found, project data is removed from memory
+    and all associated files are removed from disk.
+*/
 app.post("/delete-project", (req, res) => {
     let project_id = req.body.id;
     let category = categories.categories[req.body.category - 1];
@@ -326,6 +398,10 @@ app.post("/delete-project", (req, res) => {
     res.send(NOT_FOUND);
 });
 
+/*
+    Deprecated function which returns online set file
+    for the selected project if one exists.
+*/
 app.get("/online-set", (req, res) => {
     let id = req.query.id;
 
@@ -338,18 +414,30 @@ app.get("/online-set", (req, res) => {
     res.send(NOT_FOUND);
 });
 
+/*
+    Returns preview pdf for specified project.
+*/
 app.get("/get-preview", (req, res) => {
     res.sendFile(`/data/previews/${req.query.file}`, { root: __dirname });
 });
 
+/*
+    Routes file paths with a single folder depth.
+*/
 app.get("/:dir/:file", (req, res) => {
     res.sendFile(`/${req.params.dir}/${req.params.file}`, { root: __dirname });
 })
 
+/*
+    Routes file paths with a folder depth of two.
+*/
 app.get("/:dir1/:dir2/:file", (req, res) => {
     res.sendFile(`/${req.params.dir1}/${req.params.dir2}/${req.params.file}`, { root: __dirname })
 })
 
+/*
+    Initializes and starts web server.
+*/
 app.listen(port, () => {
     console.log(`Semblueinc listening on port ${port}`);
     load_project_data();
