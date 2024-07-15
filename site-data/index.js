@@ -170,6 +170,7 @@ app.post("/order-request", (req, res) => {
     let message = `
         <body style="padding-left: 30%; padding-right: 30%;">
             <h2 style="width: 100%; text-align: center;"><b>Plan Order Request</b></h2>
+            <h5 style="width: 100%; text-align: center;">${data.name}</h5>
             <h7>${data.email}</h7>
 
             <h5><b>Full Plans:</b></h5>
