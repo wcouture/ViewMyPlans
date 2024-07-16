@@ -107,7 +107,7 @@ function load_project_data() {
     and saves it to file at data_table.json
 */
 function save_project_data() {
-    console.log("Saving project data");
+    //console.log("Saving project data");
     let data = JSON.stringify(project_data, null, 4);
     fs.writeFileSync("data/data_table.json", data);
 }
@@ -291,6 +291,10 @@ app.get("/get-projects", (req, res) => {
 app.post("/upload-project", upload.single('file'), (req, res) => {
     let category = categories.categories[req.body.category - 1];
     var file_path = "#";
+
+    if (req.body.name == "Market District Park") {
+	console.log(category);
+    }
     
     if (req.file != undefined) {
         file_path = "data/previews/" + req.file.originalname;
