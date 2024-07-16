@@ -17,8 +17,11 @@
                 <label style="width: auto; margin-left: auto; margin-right: auto;">Email:</label>
                 <input style="width: auto; margin-left: auto; margin-right: auto;" type="email" placeholder="user@email.com" id="email" required>
                 <input style="width: auto; margin-left: auto; margin-right: auto;" type="submit" id="submit-button" value="SUBMIT">
+
+
             </div>
-            
+            <textarea style="margin-top: 20px; width: 30%; margin-left: 35%; margin-right: 35%;" id="notes-textarea" placeholder="Additional details/notes..."></textarea>            
+
             <h2 id="full-header" class="order-header">Full Set</h2>
             <div style="text-align: center;" id="full-list">
                 <div id="plan-column-full"></div>
@@ -70,6 +73,7 @@
             let message = { 
                 "name": document.getElementById("project-name").innerText,
                 "email": email.value,
+                "notes": document.getElementById("notes-textarea").value,
                 "plan_ind": [], 
                 "plan_sec": [], 
                 "plan_full": [], 

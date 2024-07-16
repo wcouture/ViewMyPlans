@@ -222,6 +222,9 @@ app.post("/order-request", (req, res) => {
             <h5 style="width: 100%; text-align: center;">${data.name}</h5>
             <h7>${data.email}</h7>
 
+            <h5>Notes:</h5>
+            <h7>${data.notes}</h7>
+
             <h5><b>Full Plans:</b></h5>
             <h6>${full_plans}</h6>
 
