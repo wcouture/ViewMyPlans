@@ -162,26 +162,34 @@
             // Full sets
 
             var item = document.createElement("p");
-            item.innerText = project_data.plan_full;
             item.style = "display: flex; margin-left: 40%; margin-right: 40%;";
+
+            var label = document.createElement("p");
+            label.innerText = project_data.spec_full;
+            label.className = "plan-order-label";
 
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = project_data.plan_full;
             item.appendChild(checkbox);
+            item.appendChild(label);
             plan_full_box.push(checkbox);
 
             plan_full.appendChild(item);
 
 
             item = document.createElement("p");
-            item.innerText = project_data.spec_full;
             item.style = "display: flex; margin-left: 40%; margin-right: 40%;";
+
+            label = document.createElement("p");
+            label.innerText = project_data.spec_full;
+            label.className = "plan-order-label";
 
             checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = project_data.spec_full;
             item.appendChild(checkbox);
+            item.appendChild(label);
             spec_full_box.push(checkbox);
 
             spec_full.appendChild(item);
@@ -193,12 +201,16 @@
             for (; i < project_data.plan_sec.length; i++) {
                 item = document.createElement("p");
                 item.style = "display: flex;";
-                item.innerText = project_data.plan_sec[i];
+                
+                label = document.createElement("p");
+                label.innerText = project_data.plan_sec[i];
+                label.className = "plan-order-label";
 
                 checkbox = document.createElement("input");
                 checkbox.id = project_data.plan_sec[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
+                item.appendChild(label);
                 plan_sec_boxes.push(checkbox);
 
                 plan_sec.appendChild(item);
@@ -215,12 +227,16 @@
             for (; i < project_data.spec_div.length; i++) {
                 item = document.createElement("p");
                 item.style = "display: flex;";
-                item.innerText = project_data.spec_div[i];
+                
+                label = document.createElement("p");
+                label.innerText = project_data.spec_div[i];
+                label.className = "plan-order-label";
 
                 checkbox = document.createElement("input");
                 checkbox.id = project_data.spec_div[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
+                item.appendChild(label);
                 spec_div_boxes.push(checkbox);
 
                 spec_div.appendChild(item);
@@ -240,13 +256,17 @@
             i = 0;
             for (; i < project_data.plan_ind.length; i++) {
                 item = document.createElement("p");
-                item.innerText = project_data.plan_ind[i];
                 item.style = "display: flex;";
+
+                label = document.createElement("p");
+                label.innerText = project_data.plan_ind[i];
+                label.className = "plan-order-label";
 
                 checkbox = document.createElement("input");
                 checkbox.id = project_data.plan_ind[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
+                item.appendChild(label);
                 plan_ind_boxes.push(checkbox);
 
                 plan_ind.appendChild(item);
@@ -264,13 +284,17 @@
             i = 0;
             for (; i < project_data.spec_ind.length; i++) {
                 item = document.createElement("p");
-                item.innerText = project_data.spec_ind[i];
                 item.style = "display: flex;";
+
+                label = document.createElement("p");
+                label.innerText = project_data.spec_ind[i];
+                label.className = "plan-order-label";
 
                 checkbox = document.createElement("input");
                 checkbox.id = project_data.spec_ind[i];
                 checkbox.type = "checkbox";
                 item.appendChild(checkbox);
+                item.appendChild(label);
                 spec_ind_boxes.push(checkbox);
 
                 spec_ind.appendChild(item);
