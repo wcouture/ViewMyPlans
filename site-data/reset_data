@@ -1,0 +1,5 @@
+rm data/data_table.json
+rm data/previews/*
+touch data/data_table.json
+cat data_table_template > data/data_table.json
+sudo systemctl restart semblueinc.service

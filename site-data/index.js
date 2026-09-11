@@ -66,7 +66,7 @@ const transporter = nodemailer.createTransport({
 	"service": 'gmail',
 	"auth": {
 		"user": 'noreply.semblueinc@gmail.com',
-		"pass": 'zosb bsqw fyci vhkb',
+		"pass": 'gpjd arjz lbhe kgda',
 	}
 })
 
@@ -446,7 +446,7 @@ app.get("/:dir1/:dir2/:file", (req, res) => {
     Initializes and starts web server.
 */
 app.listen(port, () => {
-    console.log(`Semblueinc listening on port ${port}`);
+    console.log(`ViewMyPlans listening on port ${port}`);
     load_project_data();
 });
 
