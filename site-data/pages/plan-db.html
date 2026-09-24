@@ -29,10 +29,10 @@
             <div class="header-card">
                 <table>
                     <tr>
-                        <th class="name-col"><a id="name" class="field_label" href="#">Proj Name</a></th>
-                        <th class="contractor-col"><a id="contractor" class="field_label" href="#">Contractor(s)</a></th>
-                        <th class="bid-col"><a id="bid_date" class="field_label" href="#">Bid Date</a></th>
-                        <th class="version-col"><a id="version" class="field_label" href="#">Version</a></th>
+                        <th class="name-col"><a id="Name" class="field_label" href="#">Proj Name</a></th>
+                        <th class="contractor-col"><a id="Contractor" class="field_label" href="#">Contractor(s)</a></th>
+                        <th class="bid-col"><a id="BidDate" class="field_label" href="#">Bid Date</a></th>
+                        <th class="version-col"><a id="Version" class="field_label" href="#">Version</a></th>
                         <th class="preview-col">Preview</th>
                         <th class="access-col">Access Level</th>
                     </tr>
@@ -77,10 +77,10 @@
         var match_phrase = "";
 
         let field_label_names = {
-            "name": "Proj Name",
-            "contractor": "Contractor(s)",
-            "bid_date": "Bid Date",
-            "version": "Version"
+            "Name": "Proj Name",
+            "Contractor": "Contractor(s)",
+            "BidDate": "Bid Date",
+            "Version": "Version"
         };
 
 
@@ -107,10 +107,10 @@
         function keyword_match_check(plan) {
             let keyword = match_phrase.toUpperCase();
             
-            let name = plan.name.toUpperCase();
-            let contractor = plan.contractor.toUpperCase();
-            let version = plan.version.toUpperCase();
-            let bid_date = plan.bid_date;
+            let name = plan.Name.toUpperCase();
+            let contractor = plan.Contractor.toUpperCase();
+            let version = plan.Version.toUpperCase();
+            let bid_date = plan.BidDate;
 
             let name_match = name.includes(keyword);
             let contractor_match = contractor.includes(keyword);
@@ -137,21 +137,20 @@
                     continue;
                 }
 
-                let file_name = plan.preview.substring(14)
+                let file_name = plan.Preview.substring(14)
                 
                 var preview_link = `<a href='/get-preview?file=${file_name}' target="_blank">preview</a>`;
-                if (plan.preview == "#") {
+                if (plan.Preview == "#") {
                     preview_link = 'NA';
                 }
 
-                let access_level = (plan.is_public == "Yes") ? "Public Project" : "Private Project";
-                var access_link = `<a href='${plan.link}'>${access_level}</a>`;
-                if (plan.link == 'NA') {
+                let access_level = (plan.IsPublic == "Yes") ? "Public Project" : "Private Project";
+                var access_link = `<a href='${plan.Link}'>${access_level}</a>`;
+                if (plan.Link == 'NA') {
                     access_link = '<a href="https://servius.tech/contact">Contact Us</a>';
                 }
-		
-				var bid_date = plan.bid_date.length > 0 ? plan.bid_date : "__"
-                var contractors = plan.contractor;
+
+                var contractors = plan.Contractor;
                 contractors = contractors.replace(" ", "");
                 contractors = contractors.replace(",", "<br>");
 
@@ -160,15 +159,15 @@
                 card.innerHTML = `
                     <table>
                         <tr>
-                            <td class="name-col">${plan.name}</td>
+                            <td class="name-col">${plan.Name}</td>
                             <td class="contractor-col">${contractors}</td>
-                            <td class="bid-col">${plan.bid_date}</td>
-                            <td class="version-col">${plan.version}</td>
+                            <td class="bid-col">${plan.BidDate}</td>
+                            <td class="version-col">${plan.Version}</td>
 	   		                <td class="preview-col">${preview_link}</td>
                             <td class="access-col">${access_link}</td>
                         </tr>
                     </table>
-                    <a class="order-button" href="/order?id=${plan.id}&cat=${category}">Order<br>Plans</a>
+                    <a class="order-button" href="/order?id=${plan.Id}&cat=${category}">Order<br>Plans</a>
                 `;
 
                 board.appendChild(card);
@@ -201,7 +200,7 @@
                 }
             }
 
-            fetch(`/get-projects?category=${cat_name}`, config)
+            fetch(`/get-projects?category=${cat_name}&db=1`, config)
             .then((response) => response.json())
             .then((res) => {
                 let data = res;

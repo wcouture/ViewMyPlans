@@ -4,7 +4,8 @@ const fs = require('fs');
 const combyne = require('combyne');
 const multer = require("multer");
 const upload = multer({dest: "data/temp"});
-
+const mariadb = require('mariadb');
+const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 
@@ -69,6 +70,203 @@ const transporter = nodemailer.createTransport({
 		"pass": 'gpjd arjz lbhe kgda',
 	}
 })
+
+/* 
+    Initializes maraidb connection pool
+*/
+const pool = mariadb.createPool({
+	host: 'localhost',
+	user: 'root',
+	password: 'semblue_admin',
+	database: 'viewmyplans',
+	connectionLimit: 3
+});
+
+async function init_database() {
+	let conn;
+	try {
+		conn = await pool.getConnection();
+		
+		// Create category table
+		await conn.query("CREATE TABLE IF NOT EXISTS Category ( Id INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(32));");
+
+		// Create project table
+		await conn.query("CREATE TABLE IF NOT EXISTS Project ( Id INT AUTO_INCREMENT PRIMARY KEY, CatId INT, Name VARCHAR(255), Contractor VARCHAR(255), BidDate VARCHAR(32), Version VARCHAR(64), Link VARCHAR(255), IsPublic INT DEFAULT 0, Preview VARCHAR(255), SpecFull VARCHAR(255), PlanFull VARCHAR(255), FOREIGN KEY (CatId) REFERENCES Category(Id) ON DELETE CASCADE);");
+
+		// Create plan individual table
+		await conn.query("CREATE TABLE IF NOT EXISTS PlanIndividual ( Id INT PRIMARY KEY AUTO_INCREMENT, ProjectId INT, Value VARCHAR(255), FOREIGN KEY (ProjectId) REFERENCES Project(Id) ON DELETE CASCADE);");
+
+		// Create plan section table
+		await conn.query("CREATE TABLE IF NOT EXISTS PlanSection ( Id INT PRIMARY KEY AUTO_INCREMENT, ProjectId INT, Value VARCHAR(255), FOREIGN KEY (ProjectId) REFERENCES Project(Id) ON DELETE CASCADE);");
+
+		// Create spec individual table
+		await conn.query("CREATE TABLE IF NOT EXISTS SpecIndividual ( Id INT PRIMARY KEY AUTO_INCREMENT, ProjectId INT, Value VARCHAR(255), FOREIGN KEY (ProjectId) REFERENCES Project(Id) ON DELETE CASCADE);");
+
+		// Create spec section table
+		await conn.query("CREATE TABLE IF NOT EXISTS SpecSection ( Id INT PRIMARY KEY AUTO_INCREMENT, ProjectId INT, Value VARCHAR(255), FOREIGN KEY (ProjectId) REFERENCES Project(Id) ON DELETE CASCADE);");
+
+	} catch (err) {
+		console.log("FAILED INITIALIZING DATABASE: ", err);
+	} finally {
+		if (conn) conn.end();
+	}
+}
+
+async function insert_project(project) {
+    const projInsert = `INSERT INTO Project (Id, CatId, Name, Contractor, BidDate, Version, Link, IsPublic, Preview, SpecFull, PlanFull) Values (${project.id}, ${project.cat_id}, '${project.name}', '${project.contractor}', '${project.bid_date}', '${project.version}', '${project.link}', ${project.is_public}, '${project.preview}', '${project.spec_full}', '${project.plan_full}');`;
+    let conn;
+
+    try {
+        conn = await pool.getConnection();
+        await conn.query(projInsert);
+
+        // Individual plans
+        if (project.plan_ind) {
+            for (const plan of project.plan_ind) {
+                await insert_plan_or_spec('PlanIndividual', project.id, plan);
+            }
+        }
+        
+        // Plan sections
+        if (project.plan_sec) {
+            for (const plan of project.plan_sec) {
+                await insert_plan_or_spec('PlanSection', project.id, plan);
+            }
+        }
+
+        // Individual specs
+        if (project.spec_ind) {
+            for (const spec of project.spec_ind) {
+                await insert_plan_or_spec('SpecIndividual', project.id, spec);
+            }
+        }
+
+        // Spec sections
+        if (project.spec_sec) {
+            for (const spec of project.spec_sec) {
+                await insert_plan_or_spec('SpecSection', project.id, spec);
+            }
+        }
+
+	console.log("Inserted Project: ", project.name);
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+async function update_project(project) {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const updateQuery = `UPDATE Project SET CatId = ${project.cat_id}, Name = '${project.name}', Contractor = '${project.contractor}', BidDate = '${project.bid_date}', Version = '${project.version}', Link = '${project.link}', IsPublic = ${project.is_public}, Preview = '${project.preview}', SpecFull = '${project.spec_full}', PlanFull = '${project.plan_full}' WHERE Id = ${project.id};`;
+        await conn.query(updateQuery);
+
+        // clear all individual and section plans and specs for the project
+        await conn.query(`DELETE FROM PlanIndividual WHERE ProjectId = ${project.id};`);
+        await conn.query(`DELETE FROM PlanSection WHERE ProjectId = ${project.id};`);
+        await conn.query(`DELETE FROM SpecIndividual WHERE ProjectId = ${project.id};`);
+        await conn.query(`DELETE FROM SpecSection WHERE ProjectId = ${project.id};`);
+
+        // re-insert individual and section plans and specs for the project
+        if (project.plan_ind) {
+            for (const plan of project.plan_ind) {
+                await insert_plan_or_spec('PlanIndividual', project.id, plan);
+            }
+        }
+
+        if (project.plan_sec) {
+            for (const plan of project.plan_sec) {
+                await insert_plan_or_spec('PlanSection', project.id, plan);
+            }
+        }
+
+        if (project.spec_ind) {
+            for (const spec of project.spec_ind) {
+                await insert_plan_or_spec('SpecIndividual', project.id, spec);
+            }
+        }
+
+        if (project.spec_sec) {
+            for (const spec of project.spec_sec) {
+                await insert_plan_or_spec('SpecSection', project.id, spec);
+            }
+        }
+
+	console.log("Updated Project: ", project.name);
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+async function get_projects(categoryName) {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const cat = (await conn.query(`SELECT Id FROM Category WHERE Name = '${categoryName}';`));
+        if (cat.length === 0) {
+            return [];
+        }
+	let catId = cat[0].Id;
+
+        const result = await conn.query(`SELECT * FROM Project WHERE CatId = '${catId}';`);
+        return { "plans": result };
+    } catch (err) {
+        console.error(err);
+        return [];
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+async function insert_plan_or_spec(table, projectId, filePath) {
+    const insertQuery = `INSERT INTO ${table} (ProjectId, Value) VALUES (${projectId}, '${filePath}');`;
+    let conn;
+
+    try {
+        conn = await pool.getConnection();
+        await conn.query(insertQuery);
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+async function init_categories() {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        for (const category of categories.categories) {
+            let cat = await conn.query(`SELECT * FROM Category WHERE Name = '${category}';`);
+            if (cat.length === 0) {
+                await conn.query(`INSERT INTO Category (Name) VALUES ('${category}');`);
+            }
+        }
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+async function get_categories() {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query(`SELECT Name FROM Category;`);
+	const categoryNames = result.map(row => row.Name);
+        return categoryNames;
+    } catch (err) {
+        console.error(err);
+        return [];
+    } finally {
+        if (conn) conn.release();
+    }
+}
 
 /*
     Handles message sending through the nodemailer module.
@@ -254,8 +452,11 @@ app.get("/plans", (req, res) => {
 /*
     Returns the list of all valid categories in the system.
 */
-app.get("/categories", (req, res) => {
-    res.send(JSON.stringify(categories));
+app.get("/categories", async (req, res) => {
+    let cats = await get_categories();
+    
+    res.send(JSON.stringify({"categories": cats}));
+    //res.send(JSON.stringify(categories));
 });
 
 /*
@@ -264,8 +465,17 @@ app.get("/categories", (req, res) => {
     for category.
     Used for viewmyplans listing page when switching categories.
 */
-app.get("/get-projects", (req, res) => {
+app.get("/get-projects", async (req, res) => {
     let category = req.query.category;
+
+	let db = req.query.db;
+	if (db != undefined && db == "1") {
+		console.log("Getting DB data");
+		let result = await get_projects(category);
+		res.send(JSON.stringify(result));
+		return;
+	}
+
     var data = {"plans": []};
     
     if (category == "All") {
@@ -281,6 +491,7 @@ app.get("/get-projects", (req, res) => {
 
 	data = project_data[category];
     res.send(JSON.stringify(data));
+	
 });
 
 /*
@@ -288,13 +499,9 @@ app.get("/get-projects", (req, res) => {
     Used by data upload and sync program keeping
     local and server data in sync.
 */ 
-app.post("/upload-project", upload.single('file'), (req, res) => {
+app.post("/upload-project", upload.single('file'), async (req, res) => {
     let category = categories.categories[req.body.category - 1];
     var file_path = "#";
-
-    if (req.body.name == "Market District Park") {
-	console.log(category);
-    }
     
     if (req.file != undefined) {
         file_path = "data/previews/" + req.file.originalname;
@@ -317,13 +524,14 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 
     let project = {
         "id": req.body.id,
+	"cat_id": req.body.category,
         "name": req.body.name,
         "contractor": req.body.contractor,
         "bid_date": req.body.bid_date,
         "version": req.body.version,
         "preview": file_path,
         "link": req.body.newforma,
-        "is_public": req.body.is_public,
+        "is_public": req.body.is_public.toUpperCase() == "NO" ? 0 : 1,
 	"plan_ind": req.body.plan_ind,
 	"plan_sec": req.body.plan_sec,
 	"plan_full": req.body.plan_full,
@@ -347,9 +555,23 @@ app.post("/upload-project", upload.single('file'), (req, res) => {
 
     if (project.contractor == "")
 	    project.contractor = "__";
-    if (project.bid_date == "")
-	    project.bid_date = "__";
 
+    let conn;
+    try {
+        conn = await pool.getConnection();
+
+        let proj = await conn.query(`SELECT Id FROM Project WHERE Id = ${project.id};`);
+        if (proj.length === 0) {
+            await insert_project(project);
+        } else {
+            await update_project(project);
+        }
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.release();
+    }
+    
     for (let i = 0; i < project_data[category].plans.length; i++){
         if (project_data[category].plans[i].id == project.id) {
             // Update project information
@@ -425,30 +647,53 @@ app.get("/online-set", (req, res) => {
     Returns preview pdf for specified project.
 */
 app.get("/get-preview", (req, res) => {
-    res.sendFile(`/data/previews/${req.query.file}`, { root: __dirname });
+	try {
+		res.sendFile(`/data/previews/${req.query.file}`, { root: __dirname });
+	} catch (err) {
+		console.log("Failed getting preview: ", req.query.file);
+		res.send(NOT_FOUND);
+	}
 });
 
 /*
     Routes file paths with a single folder depth.
 */
-app.get("/:dir/:file", (req, res) => {
-    res.sendFile(`/${req.params.dir}/${req.params.file}`, { root: __dirname });
+app.get("/:dir/:file", async (req, res) => {
+    let filePath = path.join(__dirname, req.params.dir, req.params.file);
+    res.sendFile(filePath, (err) => {
+	if (err) {
+    	    console.log("FAILED RETRIEVING RESOURCE: ", filePath);
+	    return res.send(NOT_FOUND);
+	}
+
+    });
 })
 
 /*
     Routes file paths with a folder depth of two.
 */
-app.get("/:dir1/:dir2/:file", (req, res) => {
-    res.sendFile(`/${req.params.dir1}/${req.params.dir2}/${req.params.file}`, { root: __dirname })
+app.get("/:dir1/:dir2/:file", async (req, res) => {
+    let filePath = path.join(__dirname, req.params.dir1, req.params.dir2, req.params.file);
+    res.sendFile(filePath, (err) => {
+	if (err) {
+	    console.log("FAILED RETRIEVING RESOURCE: ", filePath);
+	    res.send(NOT_FOUND);
+	}
+    }); 
 })
 
 /*
     Initializes and starts web server.
 */
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`ViewMyPlans listening on port ${port}`);
     load_project_data();
+    await init_database();
+    await init_categories();
 });
 
 // Save project data every hour
 setInterval(save_project_data, 5 * MINUTE);
+
+// Close connection pool on exit
+process.on('SIGINT', () => pool.end());
