@@ -1,1 +1,1 @@
-let link = document.getElementById("plan-list-link");
+document.getElementById("plan-list-link");

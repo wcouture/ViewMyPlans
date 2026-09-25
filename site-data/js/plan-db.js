@@ -61,12 +61,15 @@ function populate_list() {
         no_projects_card = undefined;
     }
 
+    let rendered_count = 0;
     for (let i = 0; i < plans.length; i++) {
         let plan = plans[i];
 
         if (keyword_match_check(plan) == false) {
             continue;
         }
+
+        rendered_count++;
 
         let file_name = plan.Preview.substring(14);
 
@@ -82,8 +85,8 @@ function populate_list() {
         }
 
         var contractors = plan.Contractor;
-        contractors = contractors.replace(" ", "");
-        contractors = contractors.replace(",", "<br>");
+        contractors = contractors.replace(/ /g, "");
+        contractors = contractors.replace(/,/g, "<br>");
 
         let card = document.createElement("div");
         card.className = "plan-card";
@@ -104,7 +107,7 @@ function populate_list() {
         board.appendChild(card);
     }
 
-    if (plans.length == 0) {
+    if (rendered_count == 0) {
         no_projects_card = document.createElement("div");
         no_projects_card.className = "no-projects-card";
         no_projects_card.innerText = "No current projects";
