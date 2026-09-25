@@ -1,13 +1,17 @@
 @font-face {
-    font-family: 'ElegantType'; /*a name to be used later*/
-    src: url('/fonts/et_regular.ttf'); /*URL to font*/
+    font-family: 'ElegantType';
+    src: url('/fonts/et_regular.ttf');
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 html {
     width: 100%;
     height: 100%;
-    font-family: 'ElegantType';
-    background: #dbdbdb;
+    font-family: 'ElegantType', serif;
+    background: #e8e8e8;
     overflow-x: hidden;
     padding: 0;
     margin: 0;
@@ -15,10 +19,13 @@ html {
 
 body {
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 table {
     width: 100%;
+    border-collapse: collapse;
 }
 
 a {
@@ -26,118 +33,66 @@ a {
     text-decoration: none;
 }
 
-.plan-card a{
+input {
+    font-family: 'ElegantType', serif;
+}
+
+/* Page navigation */
+.page-nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+    background: rgba(255,255,255,0.6);
+}
+
+.page-nav a {
+    font-size: 13pt;
     text-decoration: underline;
-    color:rgb(56, 58, 145);
+    transition: color 0.2s ease;
 }
 
-/*
-th {
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
+.page-nav a:hover {
+    color: #292b7c;
 }
 
-td {
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-}
-*/
-
+/* Title bar */
 .title-bar {
-    font-size: 40pt;
-    color: #424242;
-
+    font-size: 36pt;
+    color: #2e2e2e;
     text-align: center;
-    padding: 20px;
-
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-    border-bottom: 2px solid #707070;
+    padding: 24px 10%;
+    border-bottom: 2px solid #999;
 }
 
-.plan-board {
-    width: 70%;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    /*
-    border-radius: 10px;
-    border: 4px solid black;
-    background-color: white;
-    */
-
-    overflow-y: auto;
-
-    max-height: 50%;
-
-    padding: 10px;
-
-    opacity: 100%;
-
-    transition-duration: 0.5s;
-}
-
-.plan-board.hidden {
-    opacity: 0%;
-    transition-duration: 0.5s;
-}
-
-.header-board {
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-}
-
-.header-card {
-    text-align: left;
-    display: flex;
-    font-size: 15pt;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-.plan-card {
-    padding: 30px;
-    font-size: 15pt;
-    text-align: left;
-    background-color: white;
-    box-shadow: 2px 2px 10px 1px rgba(0,0,0,0.6);
-    display: flex;
-    margin-bottom: 2%;
-}
-
+/* Category tabs */
 .category-bar {
     display: flex;
-    align-content: center;
+    justify-content: center;
+    padding: 0;
+    background: #f0f0f0;
+    border-bottom: 2px solid #ccc;
 }
 
 .tab-bar {
-    margin-left: auto;
-    margin-right: auto;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .tab {
-    background-color: #aaaaaa;
-    border-left: 2px solid #686868;
-    border-right: 2px solid #686868;
-    border-bottom: 2px solid #686868;
-    font-size: 15pt;
-    
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    
+    background-color: #c2c2c2;
+    border-right: 1px solid #999;
+    font-size: 12pt;
+    padding: 10px 22px;
     text-transform: uppercase;
+    transition: background-color 0.15s ease;
+    cursor: pointer;
 }
 
 .tab:hover {
-    background-color: #e4e4e4;
+    background-color: #e0e0e0;
 }
 
 .tab.active {
@@ -146,125 +101,328 @@ td {
     text-decoration: underline;
 }
 
-.order-button {
-    border: 2px solid black;
-    padding: 5px;
+/* Search bar */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 12px 15%;
+    gap: 8px;
+}
+
+.search-bar-container label {
+    font-size: 12pt;
+    white-space: nowrap;
+}
+
+#search-bar {
+    width: 240pt;
+    padding: 6px 10px;
+    font-size: 10pt;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    font-family: 'ElegantType', serif;
+}
+
+/* Sort hint */
+.sort-hint {
+    font-size: 8pt;
+    margin: 0 0 4px 0;
+    width: 100%;
     text-align: center;
+    color: #666;
+}
+
+/* Header and plan boards */
+.header-board {
+    width: 72%;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.header-card {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    font-size: 13pt;
+    font-weight: bold;
+    padding: 8px 30px;
+    background: #d0d0d0;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #bbb;
+}
+
+.plan-board {
+    width: 72%;
+    margin: 0 auto;
+    padding: 10px;
+    overflow-y: auto;
+    transition: opacity 0.5s ease;
+}
+
+.plan-board.hidden {
+    opacity: 0;
+}
+
+/* Plan cards */
+.plan-card {
+    padding: 20px 30px;
+    font-size: 13pt;
+    text-align: left;
+    background-color: white;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    transition: box-shadow 0.15s ease;
+}
+
+.plan-card:hover {
+    box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.28);
+}
+
+.plan-card a {
+    text-decoration: underline;
+    color: rgb(56, 58, 145);
+}
+
+.no-projects-card {
+    width: 100%;
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+    font-size: 14pt;
+}
+
+/* Column widths */
+.name-col       { width: 20%; }
+.contractor-col { width: 20%; }
+.bid-col        { width: 15%; }
+.version-col    { width: 15%; }
+.preview-col    { width: 15%; }
+.access-col     { width: 15%; }
+
+/* Order button per card */
+.order-button {
+    border: 2px solid #444;
+    padding: 6px 10px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 11pt;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
 }
 
 .order-button:hover {
     background-color: rgb(56, 58, 145);
     color: white;
+    border-color: rgb(56, 58, 145);
 }
 
-.name-col {
-    width: 20%;
+/* Invisible spacer in the header row matching the order button */
+.order-button-spacer {
+    padding: 6px 10px;
+    color: transparent;
+    pointer-events: none;
+    user-select: none;
+    font-size: 11pt;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.contractor-col {
-    width: 20%;
+/* Field label sort links */
+.field_label {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
 }
 
-.bid-col {
-    width: 15%;
+.field_label:hover {
+    color: #555;
 }
 
-.version-col {
-    width: 15%;
+/* ============================================================
+   Order page
+   ============================================================ */
+
+.back-to-plans {
+    display: inline-block;
+    margin: 20px 0 0 15%;
+    font-size: 14pt;
+    text-decoration: underline;
+    transition: color 0.2s ease;
 }
 
-.preview-col {
-    width: 15%;
+.back-to-plans:hover {
+    color: #292b7c;
 }
 
-.access-col {
-    width: 15%;
+.project-name-label {
+    width: 100%;
+    text-align: center;
+    font-size: 16pt;
+    margin: 16px 0;
 }
 
-#search-bar {
-    margin-left: 0;
-    margin-right: auto;
+.order-form-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
 
-    width: 200pt;
-    padding: 5px;
+.order-form-row label {
+    font-size: 13pt;
+}
 
-    font-size: 10pt;
+.order-form-row input[type="email"] {
+    padding: 6px 10px;
+    font-size: 12pt;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    width: 260px;
+}
+
+.order-notes {
+    display: block;
+    margin: 16px auto;
+    width: 40%;
+    min-height: 80px;
+    padding: 8px;
+    font-family: 'ElegantType', serif;
+    font-size: 11pt;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    resize: vertical;
 }
 
 .order-header {
     width: 50%;
+    padding: 0 5%;
+    margin: 24px auto 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    font-size: 18pt;
+    color: #2e2e2e;
+}
 
-    padding-left: 5%;
-    padding-right: 5%;
+.order-columns {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    width: 60%;
+    margin: 0 auto;
+}
 
-    margin-left: 20%;
-    margin-right: 20%;
+.order-column-scroll {
+    width: auto;
+    max-height: 300px;
+    overflow-y: auto;
+}
 
-    border-bottom: 1px solid rgba(0,0,0,0.6);
+.order-column-scroll--tall {
+    max-height: 600px;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+}
+
+.checkbox-row.centered {
+    justify-content: center;
+    margin: 4px 20%;
 }
 
 .plan-order-label {
     padding: 0;
     margin: 0;
-}
-
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    border-radius: 5px;
-}
-
-
-::-webkit-scrollbar-thumb {
-    background: #6e6e6e;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #9b9b9b;
+    font-size: 11pt;
 }
 
 #submit-button {
-    width: 100px;
-    height: 35px;
+    padding: 6px 20px;
+    font-size: 12pt;
+    font-family: 'ElegantType', serif;
     background-color: white;
     color: black;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 #submit-button:hover {
     background-color: #292b7c;
     color: white;
+    border-color: #292b7c;
 }
 
 .return-button {
-    width: auto;
-    margin-left: 45%;
-    margin-right: 45%;
-    padding: 10px;
-
+    display: block;
+    width: fit-content;
+    margin: 20px auto;
+    padding: 10px 24px;
     border-radius: 5px;
     background: white;
+    border: 1px solid #aaa;
+    font-size: 13pt;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .return-button:hover {
     background-color: #292b7c;
     color: white;
+    border-color: #292b7c;
 }
 
-.back-to-plans {
-    position: absolute; 
-    left: 20%; 
-    top: 5%; 
-    font-size: 15pt;
-
-    text-decoration: underline;
+.order-success-message {
+    width: 100%;
+    text-align: center;
+    font-size: 14pt;
+    padding: 20px 0 8px;
 }
 
-.back-to-plans:hover {
-    color:#292b7c;
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
 }
 
-.field_label:hover {
-    color: #929292;
+::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background: #e0e0e0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 900px) {
+    .header-board,
+    .plan-board {
+        width: 94%;
+    }
+
+    .order-columns {
+        width: 90%;
+        flex-wrap: wrap;
+    }
+
+    .order-notes {
+        width: 80%;
+    }
+
+    .back-to-plans {
+        margin-left: 5%;
+    }
 }

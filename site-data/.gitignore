@@ -1,2 +1,3 @@
-/data/*
+/data/temp/*
 /data/data_table.json
+/node_modules

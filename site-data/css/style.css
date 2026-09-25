@@ -1,19 +1,28 @@
 @font-face {
-    font-family: 'ElegantType'; /*a name to be used later*/
-    src: url('/fonts/et_regular.ttf'); /*URL to font*/
+    font-family: 'ElegantType';
+    src: url('/fonts/et_regular.ttf');
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 html {
     overflow-x: hidden;
-    font-family: 'ElegantType';    
+    font-family: 'ElegantType', serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-h1 {
-    font-size: 60pt;
-    font-weight: 300;
-    position: absolute;
-    left: 20%;
-    line-height: .9;
+body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: url("/images/monocle-transformed.png") center center / cover no-repeat fixed;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
@@ -22,51 +31,43 @@ a {
     width: fit-content;
 }
 
+/* Hero layout */
+.home-hero {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    min-height: 60vh;
+}
+
+h1 {
+    font-size: 60pt;
+    font-weight: 300;
+    line-height: 0.9;
+    margin: 0;
+    padding: 5% 0 0 20%;
+}
+
 #plan-list-link {
     font-size: 50pt;
     text-align: center;
     padding: 5%;
-
     position: absolute;
     left: 53%;
     top: 18%;
-}
-
-@media screen and (max-width: 768px) {
-    #plan-list-link {
-        font-size: 40pt;
-        text-align: center;
-        padding: 5%;
-
-        position: absolute;
-        left: 54%;
-        top: 18%;
-    }
+    transition: color 0.2s ease;
 }
 
 #plan-list-link:hover {
     color: white;
 }
 
-body {
-    width: 100%;
-    height: 100%;
-    background: url("/images/monocle-transformed.png");
-    background-size:cover;
-    background-repeat: no-repeat;
-}
-
-input {
-    font-family: 'ElegantType';
-}
-
+/* Navigation buttons */
 .nav-buttons {
-    max-width: 15%;
-    position: absolute;
     display: flex;
-    align-content: center;
-    left: 20%;
-    top: 60%;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 0 40px 20%;
 }
 
 .button {
@@ -74,11 +75,33 @@ input {
     font-size: 20pt;
     text-align: center;
     text-decoration: underline;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
+    padding: 10px 16px;
+    border-radius: 4px;
+    transition: color 0.2s ease;
 }
 
 .button:hover {
     color: #212ea1;
+}
+
+input {
+    font-family: 'ElegantType', serif;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 40pt;
+        padding: 5% 0 0 5%;
+    }
+
+    #plan-list-link {
+        font-size: 34pt;
+        left: 54%;
+        top: 18%;
+    }
+
+    .nav-buttons {
+        padding-left: 5%;
+    }
 }
