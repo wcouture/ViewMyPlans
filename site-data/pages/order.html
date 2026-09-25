@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>ViewMyPlans</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ViewMyPlans — Order Plans</title>
         <link href="/css/page-style.css" rel="stylesheet"/>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,298 +14,33 @@
         <a class="back-to-plans" href="/plans">Back</a>
         <div class="title-bar">Plan Order Form</div>
         <div class="plan-board">
-            <p style="width: 100%; text-align: center;" id="project-name">Project: PROJECT_NAME</p>
-            <div style="width: 25%; margin-left: 37.5%; margin-right: 37.5%; display: flex;">
-                <label style="width: auto; margin-left: auto; margin-right: auto;">Email:</label>
-                <input style="width: auto; margin-left: auto; margin-right: auto;" type="email" placeholder="user@email.com" id="email" required>
-                <input style="width: auto; margin-left: auto; margin-right: auto;" type="submit" id="submit-button" value="SUBMIT">
-
-
+            <p class="project-name-label" id="project-name">Project: PROJECT_NAME</p>
+            <div class="order-form-row">
+                <label for="email">Email:</label>
+                <input type="email" placeholder="user@email.com" id="email" required>
+                <input type="submit" id="submit-button" value="SUBMIT">
             </div>
-            <textarea style="margin-top: 20px; width: 30%; margin-left: 35%; margin-right: 35%;" id="notes-textarea" placeholder="Additional details/notes..."></textarea>            
+            <textarea class="order-notes" id="notes-textarea" placeholder="Additional details/notes..."></textarea>
 
             <h2 id="full-header" class="order-header">Full Set</h2>
-            <div style="text-align: center;" id="full-list">
+            <div class="order-columns" id="full-list">
                 <div id="plan-column-full"></div>
                 <div id="spec-column-full"></div>
             </div>
+
             <h2 id="section-header" class="order-header">Section</h2>
-            <div style="display: flex; width: 50%; margin-left: 25%; margin-right: 25%;" id="section-list">
-                <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="plan-column-sec"></div>
-                <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 300px; overflow-y: auto;" id="spec-column-div"></div>
+            <div class="order-columns" id="section-list">
+                <div class="order-column-scroll" id="plan-column-sec"></div>
+                <div class="order-column-scroll" id="spec-column-div"></div>
             </div>
+
             <h2 id="individual-header" class="order-header">Individual</h2>
-            <div style="display: flex; width: 50%; margin-left: 25%; margin-right: 25%;" id="individual-list">
-                <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 600px; overflow-y: auto;" id="plan-column-ind"></div>
-                <div style="margin-left: auto; margin-right: auto; width: auto; max-height: 600px; overflow-y: auto;" id="spec-column-ind"></div>
+            <div class="order-columns" id="individual-list">
+                <div class="order-column-scroll order-column-scroll--tall" id="plan-column-ind"></div>
+                <div class="order-column-scroll order-column-scroll--tall" id="spec-column-ind"></div>
             </div>
         </div>
+
+        <script src="/js/order.js"></script>
     </body>
-    <script>
-        var project_data = undefined;
-        let board = document.getElementsByClassName("plan-board")[0];
-
-        let plan_ind = document.getElementById("plan-column-ind");
-        let spec_ind = document.getElementById("spec-column-ind");
-
-        let plan_sec = document.getElementById("plan-column-sec");
-        let spec_div = document.getElementById("spec-column-div");
-
-        let plan_full = document.getElementById("plan-column-full");
-        let spec_full = document.getElementById("spec-column-full");
-
-        let email = document.getElementById("email");
-        let submit_button = document.getElementById("submit-button");
-
-        let plan_ind_boxes = [];
-        let plan_sec_boxes = [];
-        let plan_full_box = [];
-
-        let spec_ind_boxes = [];
-        let spec_div_boxes = [];
-        let spec_full_box = [];
-
-        submit_button.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (email.value.length <= 0 || email.value.includes("@") == false || email.value.includes(".") == false) {
-                alert("Must enter valid email to submit.");
-                return;
-            }
-
-            let message = { 
-                "name": document.getElementById("project-name").innerText,
-                "email": email.value,
-                "notes": document.getElementById("notes-textarea").value,
-                "plan_ind": [], 
-                "plan_sec": [], 
-                "plan_full": [], 
-                "spec_ind": [], 
-                "spec_div": [], 
-                "spec_full": [] 
-            };
-
-            var i = 0;
-            // Full
-            for (; i < plan_full_box.length; i++) {
-                if (plan_full_box[i].checked)
-                    message.plan_full.push(plan_full_box[i].id);
-            }
-
-            i = 0;
-            for (; i < spec_full_box.length; i++) {
-                if (spec_full_box[i].checked)
-                    message.spec_full.push(spec_full_box[i].id);
-            }
-
-            // Section/division
-            i = 0;
-            for (; i < plan_sec_boxes.length; i++) {
-                if (plan_sec_boxes[i].checked)
-                    message.plan_sec.push(plan_sec_boxes[i].id);
-            }
-
-            i = 0;
-            for (; i < spec_div_boxes.length; i++) {
-                if (spec_div_boxes[i].checked)
-                    message.spec_div.push(spec_div_boxes[i].id);
-            }
-
-            // Individual
-            i = 0;
-            for (; i < plan_ind_boxes.length; i++) {
-                if (plan_ind_boxes[i].checked)
-                    message.plan_ind.push(plan_ind_boxes[i].id);
-            }
-
-            i = 0;
-            for (; i < spec_ind_boxes.length; i++) {
-                if (spec_ind_boxes[i].checked)
-                    message.spec_ind.push(spec_ind_boxes[i].id);
-            }
-
-            console.log(message);
-
-            let config = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "mode": "same-origin",
-                }
-            }
-
-            config.body = JSON.stringify(message);
-
-            fetch("/order-request", config)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.status == 'success') {
-                    board.className = "plan-board hidden";
-                    setTimeout(() => {
-                        board.innerHTML = `
-                            <p style="width: 100%; text-align: center;">Plan order request submitted;</p>
-                            <a class="return-button" href="/plans">View Plans</a>
-                            `;
-                        board.className = "plan-board";
-                    }, 500);
-                }
-            })
-        })
-
-        function set_project_data(data) {
-            project_data = data;
-            var i = 0;
-
-            let plans_header = document.createElement("p");
-            plans_header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
-
-            let specs_header = document.createElement("p");
-            specs_header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
-
-            // Full sets
-
-            var item = document.createElement("p");
-            item.style = "display: flex; margin-left: 40%; margin-right: 40%;";
-
-            var label = document.createElement("p");
-            label.innerText = project_data.spec_full;
-            label.className = "plan-order-label";
-
-            var checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = project_data.plan_full;
-            item.appendChild(checkbox);
-            item.appendChild(label);
-            plan_full_box.push(checkbox);
-
-            plan_full.appendChild(item);
-
-
-            item = document.createElement("p");
-            item.style = "display: flex; margin-left: 40%; margin-right: 40%;";
-
-            label = document.createElement("p");
-            label.innerText = project_data.spec_full;
-            label.className = "plan-order-label";
-
-            checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = project_data.spec_full;
-            item.appendChild(checkbox);
-            item.appendChild(label);
-            spec_full_box.push(checkbox);
-
-            spec_full.appendChild(item);
-
-            // Sections/Divisions
-
-            i = 0;
-            plan_sec.appendChild(plans_header);
-            for (; i < project_data.plan_sec.length; i++) {
-                item = document.createElement("p");
-                item.style = "display: flex;";
-                
-                label = document.createElement("p");
-                label.innerText = project_data.plan_sec[i];
-                label.className = "plan-order-label";
-
-                checkbox = document.createElement("input");
-                checkbox.id = project_data.plan_sec[i];
-                checkbox.type = "checkbox";
-                item.appendChild(checkbox);
-                item.appendChild(label);
-                plan_sec_boxes.push(checkbox);
-
-                plan_sec.appendChild(item);
-            }
-
-            if (i == 0) {
-                item = document.createElement("p");
-                item.innerText = "None available";
-                plan_sec.appendChild(item);
-            }
-
-            i = 0;
-            spec_div.appendChild(specs_header);
-            for (; i < project_data.spec_div.length; i++) {
-                item = document.createElement("p");
-                item.style = "display: flex;";
-                
-                label = document.createElement("p");
-                label.innerText = project_data.spec_div[i];
-                label.className = "plan-order-label";
-
-                checkbox = document.createElement("input");
-                checkbox.id = project_data.spec_div[i];
-                checkbox.type = "checkbox";
-                item.appendChild(checkbox);
-                item.appendChild(label);
-                spec_div_boxes.push(checkbox);
-
-                spec_div.appendChild(item);
-            }
-
-            if (i == 0) {
-                item = document.createElement("p");
-                item.innerText = "None available";
-                spec_div.appendChild(item);
-            }
-
-            // Individuals
-
-            plans_header = document.createElement("p");
-            plans_header.innerText = "~~~~~~~~~~ Plans ~~~~~~~~~~";
-            plan_ind.appendChild(plans_header);
-            i = 0;
-            for (; i < project_data.plan_ind.length; i++) {
-                item = document.createElement("p");
-                item.style = "display: flex;";
-
-                label = document.createElement("p");
-                label.innerText = project_data.plan_ind[i];
-                label.className = "plan-order-label";
-
-                checkbox = document.createElement("input");
-                checkbox.id = project_data.plan_ind[i];
-                checkbox.type = "checkbox";
-                item.appendChild(checkbox);
-                item.appendChild(label);
-                plan_ind_boxes.push(checkbox);
-
-                plan_ind.appendChild(item);
-            }
-
-            if (i == 0) {
-                item = document.createElement("p");
-                item.innerText = "None available";
-                plan_ind.appendChild(item);
-            }
-
-            specs_header = document.createElement("p");
-            specs_header.innerText = "~~~~~~~~~~ Specs ~~~~~~~~~~";
-            spec_ind.appendChild(specs_header);
-            i = 0;
-            for (; i < project_data.spec_ind.length; i++) {
-                item = document.createElement("p");
-                item.style = "display: flex;";
-
-                label = document.createElement("p");
-                label.innerText = project_data.spec_ind[i];
-                label.className = "plan-order-label";
-
-                checkbox = document.createElement("input");
-                checkbox.id = project_data.spec_ind[i];
-                checkbox.type = "checkbox";
-                item.appendChild(checkbox);
-                item.appendChild(label);
-                spec_ind_boxes.push(checkbox);
-
-                spec_ind.appendChild(item);
-            }
-
-            if (i == 0) {
-                item = document.createElement("p");
-                item.innerText = "None available";
-                spec_ind.appendChild(item);
-            }
-        }
-    </script>
+</html>

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ViewMyPlans</title>
         <link href="/css/style.css" rel="stylesheet"/>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -9,22 +11,17 @@
         <link rel="icon" type="image/jpg" href="/images/logo.jpg">
     </head>
     <body>
-        <h1>
-            &ensp;View<br>
-            &emsp;My<br>
-            &ensp;Plans<br>
-            &nbsp;.com
-        </h1>
-        <a href="/plans" id="plan-list-link">View<br>Plans</a>
+        <div class="home-hero">
+            <h1>
+                &ensp;View<br>
+                &emsp;My<br>
+                &ensp;Plans<br>
+                &nbsp;.com
+            </h1>
+            <a href="/plans" id="plan-list-link">View<br>Plans</a>
+        </div>
 
-        <div class="nav-buttons">
-            <!--
-            <a href="/upload">
-                <div class="button">
-                    Plan Upload
-                </div>
-            </a>
-            -->
+        <nav class="nav-buttons">
             <a href="https://semblueinc.com">
                 <div class="button">
                     SemBlueInc
@@ -35,11 +32,7 @@
                     Upload Plans
                 </div>
             </a>
-            
-            
-        </div>
+        </nav>
+        <script src="/js/index.js"></script>
     </body>
-    <script>
-        let link = document.getElementById("plan-list-link");
-    </script>
 </html>
